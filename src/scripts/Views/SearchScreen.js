@@ -3,6 +3,7 @@ import ShowList from '../Components/ShowList';
 import Tracker from '../Services/Tracker';
 import Storage from '../Services/Storage';
 import Navigation from '../Components/Navigation';
+import { hashHistory } from 'react-router';
 
 export default class SearchScreen extends React.Component {
 	constructor(props) {
@@ -18,8 +19,8 @@ export default class SearchScreen extends React.Component {
 	}
 	
 	onShowClick(show) {
-		console.log(show);
 		Storage.addShow(show);
+		hashHistory.push('/');
 	}
 	
 	searchForShows(query) {
