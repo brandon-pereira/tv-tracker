@@ -2,10 +2,18 @@
 TV Tracker is a menu bar application which runs on both Mac and Windows.
 
 ## Running Locally
+Before running anything be sure to run 
 ```
-npm install
-webpack
+npm install 
+```
+### As a web app
+```
 npm start
+```
+
+### Run as an application
+```
+npm run-script run
 ```
 
 ## Building

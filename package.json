@@ -23,7 +23,8 @@
     "webpack": "^1.14.0"
   },
   "scripts": {
-    "start": "webpack | electron ."
+    "run": "electron .",
+		"start": "webpack-dev-server --content-base app/ -d"
   },
   "author": "Brandon Pereira",
   "license": "ISC"
