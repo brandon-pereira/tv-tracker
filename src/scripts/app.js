@@ -10,6 +10,4 @@ render((
     <Route path="/" component={HomeScreen} />
 		<Route path="add" component={SearchScreen} />
   </Router>
-), document.getElementById('root'))
-
-console.log("Application Initialized"); 
+), document.getElementById('root'));
