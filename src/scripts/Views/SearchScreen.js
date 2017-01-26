@@ -19,13 +19,17 @@ export default class SearchScreen extends React.Component {
 	}
 	
 	onShowClick(show) {
-		Storage.addShow(show);
-		hashHistory.push('/');
+		Tracker.getShowDetails(show).then((show) => {
+			Storage.addShow(show);
+			hashHistory.push('/');
+		}).catch((show) => {
+			Storage.addShow(show);
+			hashHistory.push('/');
+		});
 	}
 	
 	searchForShows(query) {
 		Tracker.getByName(query).then((shows) => {
-			console.log(shows);
 			this.setState({shows});
 		});
 	}
@@ -35,7 +39,7 @@ export default class SearchScreen extends React.Component {
 		 <div className="addscreen-container">
 			 <Navigation title="Add Show" />
 			 <input placeholder="Search for show..." onChange={this.onInputChange.bind(this)} />
-			 <ShowList onClick={this.onShowClick} list={this.state.shows}></ShowList>
+			 <ShowList onClick={this.onShowClick} list={this.state.shows} hasAirTime={false}></ShowList>
 		 </div>
 	 )
 	}

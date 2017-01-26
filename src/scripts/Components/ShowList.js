@@ -11,7 +11,7 @@ export default class ShowList extends React.Component {
 	render() {
 		const listItems = this.props.list.map((item) => {
 			if(item.show) item = item.show;
-			return <TvShow onClick={this.props.onClick} key={item.id} show={item}></TvShow>
+			return <TvShow onClick={this.props.onClick} key={item.id} show={item} hasAirTime={this.props.hasAirTime}></TvShow>
 		});
 		return (
 			<div className="listings-container">

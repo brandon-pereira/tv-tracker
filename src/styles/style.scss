@@ -57,6 +57,7 @@ input {
 	text-shadow: 1px 1px rgba(0,0,0,.5);
 	display: flex;
 	align-items: flex-end;
+  padding: 1rem;
 	.background {
 		position: absolute;
 		z-index: -1;
@@ -68,6 +69,6 @@ input {
 		object-fit: cover;
 	}
 	.title {
-			padding: 1rem;
+		flex: 1;
 	}
 }
