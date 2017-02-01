@@ -1,4 +1,4 @@
-import uniqBy from '../Helpers/UniqBy';
+import uniqBy from 'lodash/uniqBy';
 
 function addShow(show) {
 	var currentShows = JSON.parse(localStorage.getItem('shows')) || [];

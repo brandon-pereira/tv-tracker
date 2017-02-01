@@ -8,7 +8,7 @@ export default class HomeScreen extends React.Component {
 		super(props);
 		this.state = { // the one truth
 			shows: Storage.getShows() || []
-		};
+		}; 
 		console.log("HomeScreen: TV Shows", this.state);
 	}
 	

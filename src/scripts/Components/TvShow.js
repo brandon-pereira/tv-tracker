@@ -1,10 +1,13 @@
 import React from 'react';
-import moment from 'moment';
 
 class TvShow extends React.Component {
 	constructor(props) {
 		super(props);
-		console.log(props);
+		this.state = {
+			image: this.getImage(),
+			airDate: 'Loading...'
+		};
+		this.getAirDate();
 	}
 
 	getImage() {
@@ -16,11 +19,15 @@ class TvShow extends React.Component {
 	
 	getAirDate() {
 		if(this.props.hasAirTime === false) {
-			return '';
+			this.setState({airDate: ''});
 		} else if(this.props && this.props.show && this.props.show.nextepisode && this.props.show.nextepisode.airstamp) {
-			return moment(this.props.show.nextepisode.airstamp).fromNow(true);
+			require.ensure(['moment'], (require) => {
+	    	var m = require('moment');
+				this.setState({airDate: m(this.props.show.nextepisode.airstamp).fromNow(true)})
+			});
+
 		} else {
-			return 'TBA';	
+			this.setState({airDate: 'TBA'});
 		}
 	}
 	
@@ -28,8 +35,8 @@ class TvShow extends React.Component {
 		return (
 			<div className="listing" onClick={this.props.onClick.bind(this, this.props.show)}>
 				<span className="title">{this.props.show.name}</span>
-				<span className="airdate">{this.getAirDate()}</span>
-				<img src={this.getImage()} className="background" />
+				<span className="airdate">{this.state.airDate}</span>
+				<img src={this.state.image} className="background" />
 			</div>
 		)
 	}

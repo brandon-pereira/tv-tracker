@@ -17,15 +17,16 @@
     "babel-preset-react": "^6.16.0",
     "css-loader": "^0.26.1",
     "electron": "^1.4.12",
+    "lodash": "^4.17.4",
     "menubar": "^5.1.0",
     "node-sass": "^4.0.0",
     "sass-loader": "^4.1.0",
     "style-loader": "^0.13.1",
-    "webpack": "^1.14.0"
+    "webpack": "^2.2.0"
   },
   "scripts": {
     "run": "electron .",
-		"start": "webpack-dev-server --content-base app/ -d"
+    "start": "webpack-dev-server --content-base app/ -d"
   },
   "author": "Brandon Pereira",
   "license": "ISC"
