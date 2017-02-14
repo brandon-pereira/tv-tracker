@@ -26,7 +26,7 @@
   },
   "scripts": {
     "run": "electron .",
-    "start": "webpack-dev-server --content-base app/ -d"
+    "start": "webpack-dev-server --publicPath ./ --inline --content-base app/ -d"
   },
   "author": "Brandon Pereira",
   "license": "ISC"
