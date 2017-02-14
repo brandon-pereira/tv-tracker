@@ -7,6 +7,9 @@ class TvShow extends React.Component {
 			image: this.getImage(),
 			airDate: 'Loading...'
 		};
+	}
+	
+	componentDidMount() {
 		this.getAirDate();
 	}
 
