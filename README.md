@@ -21,6 +21,13 @@ This is still being ironed out. Stay tuned!
 
 ## Technical Features
 I built this project (like all other projects) to learn some new stuff. This project utilizes serval new tools including:
-- [Electron](http://electron.atom.io/)
 - [Webpack](https://webpack.js.org/)
-- [React](https://facebook.github.io/react/)
+	- Code Splitting
+	- ES6 Modules [COMPLETE]
+	- ES6 Transpiler [COMPLETE]
+- [Service Workers](https://developers.google.com/web/fundamentals/getting-started/primers/service-workers)
+	- Offline support
+	- PWA
+	- Push Notifications
+- [Electron](http://electron.atom.io/) [COMPLETE]
+- [React](https://facebook.github.io/react/) 
