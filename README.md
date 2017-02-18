@@ -13,7 +13,8 @@ npm start
 
 ### Run as an application
 ```
-npm run-script run
+npm run build
+npm run run
 ```
 
 ## Building

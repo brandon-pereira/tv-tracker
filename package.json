@@ -26,6 +26,7 @@
   },
   "scripts": {
     "run": "electron .",
+		"build": "webpack",
     "start": "webpack-dev-server --publicPath ./ --inline --content-base app/ -d"
   },
   "author": "Brandon Pereira",
