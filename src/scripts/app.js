@@ -4,6 +4,7 @@ import { Router, Route, Link, hashHistory } from 'react-router';
 import HomeScreen from './Views/Homescreen';
 import SearchScreen from './Views/SearchScreen';
 import css from '!style-loader!css-loader!sass-loader!../styles/style.scss';
+import register from './Services/ServiceWorker';
 
 render((
   <Router history={hashHistory}>
