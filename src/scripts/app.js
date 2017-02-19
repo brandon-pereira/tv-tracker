@@ -1,14 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, Link, hashHistory } from 'react-router';
-import HomeScreen from './Views/Homescreen';
-import SearchScreen from './Views/SearchScreen';
-import css from '!style-loader!css-loader!sass-loader!../styles/style.scss';
+import { Router, hashHistory } from 'react-router';
+import css from '../styles/style.scss';
+import routes from './Router/Router';
 import register from './Services/ServiceWorker';
 
 render((
-  <Router history={hashHistory}>
-    <Route path="/" component={HomeScreen} />
-		<Route path="add" component={SearchScreen} />
-  </Router>
+  <Router history={hashHistory} routes={routes}></Router>
 ), document.getElementById('root'));

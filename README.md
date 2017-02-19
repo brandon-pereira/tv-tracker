@@ -23,7 +23,7 @@ This is still being ironed out. Stay tuned!
 ## Technical Features
 I built this project (like all other projects) to learn some new stuff. This project utilizes serval new tools including:
 - [Webpack](https://webpack.js.org/)
-	- Code Splitting
+	- Code Splitting [COMPLETE]
 	- ES6 Modules [COMPLETE]
 	- ES6 Transpiler [COMPLETE]
 - [Service Workers](https://developers.google.com/web/fundamentals/getting-started/primers/service-workers)

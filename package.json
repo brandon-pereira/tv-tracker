@@ -13,6 +13,7 @@
   "devDependencies": {
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
+    "babel-plugin-dynamic-import-webpack": "^1.0.1",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
     "css-loader": "^0.26.1",
@@ -26,7 +27,7 @@
   },
   "scripts": {
     "run": "electron .",
-		"build": "NODE_ENV='production' webpack -p --optimize-minimize",
+    "build": "NODE_ENV='production' webpack -p --optimize-minimize",
     "start": "webpack-dev-server --publicPath ./ --inline --content-base app/ -d"
   },
   "author": "Brandon Pereira",
