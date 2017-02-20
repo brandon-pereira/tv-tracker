@@ -24,11 +24,9 @@ class TvShow extends React.Component {
 		if(this.props.hasAirTime === false) {
 			this.setState({airDate: ''});
 		} else if(this.props && this.props.show && this.props.show.nextepisode && this.props.show.nextepisode.airstamp) {
-			require.ensure(['moment'], (require) => {
-	    	var m = require('moment');
-				this.setState({airDate: m(this.props.show.nextepisode.airstamp).fromNow(true)})
+			import('moment').then(moment => {
+				this.setState({airDate: moment(this.props.show.nextepisode.airstamp).fromNow(true)})
 			});
-
 		} else {
 			this.setState({airDate: 'TBA'});
 		}
