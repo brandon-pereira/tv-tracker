@@ -1,10 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Router, hashHistory } from 'react-router';
-
-// TODO: TextExtractPlugin
-import css from '../styles/style.scss';
-
 import routes from './Router/Router';
 import register from './Services/ServiceWorker';
 import injectTapEventPlugin from 'react-tap-event-plugin';

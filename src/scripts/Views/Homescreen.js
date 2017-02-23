@@ -17,14 +17,20 @@ export default class HomeScreen extends React.Component {
 	}
 	
 	render() {
-	 return (
+		const addStyles = {
+			margin: '0',
+			right: '24px',
+			bottom: '24px',
+			position: 'fixed'
+		};
+		return (
 		 <div>
 				<Navigation title="TV Tracker" />			
- 				<ShowList onClick={() => {}} list={this.state.shows} highResolution={true} />		
-				<FloatingActionButton href="#add" className="add-button" secondary={true}>
+					<ShowList onClick={() => {}} list={this.state.shows} highResolution={true} />		
+				<FloatingActionButton href="#add" className="add-button" secondary={true} style={addStyles}>
 					<ContentAdd />
 			 	</FloatingActionButton>
 		 </div>
-	 )
+		)
 	}
 }
