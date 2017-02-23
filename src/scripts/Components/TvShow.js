@@ -52,7 +52,7 @@ class TvShow extends React.Component {
           subtitle={this.state.airDate}
 					onTouchTap={this.props.onClick.bind(this, this.props.show)}
         >
-          <img src={this.state.image} />
+          <img draggable="false" src={this.state.image} />
       </GridTile>
 		)
 	}
