@@ -5,6 +5,7 @@ dist/
 app/*.app.js
 app/app.js
 .idea/
+npm-debug.log
 # Created by https://www.gitignore.io
 
 

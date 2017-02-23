@@ -1,7 +1,11 @@
 import React from 'react';
+
+// Components
 import ShowList from '../Components/ShowList';
 import Navigation from '../Components/Navigation';
 import Storage from '../Services/Storage';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 export default class HomeScreen extends React.Component {
 	constructor(props) {
@@ -14,10 +18,12 @@ export default class HomeScreen extends React.Component {
 	
 	render() {
 	 return (
-		 <div className="homescreen-container">
-	 			<Navigation title="TV Tracker" addButton={true} />
-				<ShowList onClick={() => {}} list={this.state.shows}></ShowList>
-
+		 <div>
+				<Navigation title="TV Tracker" />			
+ 				<ShowList onClick={() => {}} list={this.state.shows} highResolution={true} />		
+				<FloatingActionButton href="#add" className="add-button" secondary={true}>
+					<ContentAdd />
+			 	</FloatingActionButton>
 		 </div>
 	 )
 	}

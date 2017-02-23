@@ -2,6 +2,8 @@ import React from 'react';
 import Tracker from "../Services/Tracker";
 import TvShow from './TvShow';
 
+import {GridList} from 'material-ui/GridList';
+
 export default class ShowList extends React.Component {
 	constructor(props) {
 		super(props);
@@ -11,12 +13,12 @@ export default class ShowList extends React.Component {
 	render() {
 		const listItems = this.props.list.map((item) => {
 			if(item.show) item = item.show;
-			return <TvShow onClick={this.props.onClick} key={item.id} show={item} hasAirTime={this.props.hasAirTime}></TvShow>
+			return <TvShow onClick={this.props.onClick} highResolution={this.props.highResolution === true} key={item.id} show={item} hasAirTime={this.props.hasAirTime}></TvShow>
 		});
 		return (
-			<div className="listings-container">
-				{listItems}
-			</div>
+			<GridList padding={2}>
+			 {listItems}
+		 </GridList>
 		);
 	}
 }

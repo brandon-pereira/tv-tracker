@@ -1,17 +1,26 @@
 import React from 'react';
+import AppBar from 'material-ui/AppBar';
+import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
+import IconButton from 'material-ui/IconButton'
+import { hashHistory } from 'react-router';
 
 export default class Navigation extends React.Component {
 	constructor(props) {
 		super(props);
 	}
 	
+	onBackButtonClick() {
+		hashHistory.push('/');
+	}
+	
 	render() {
 		return (
-			<nav className="global-navigation">
-				{!this.props.addButton && <a className="back-button button" href="#/">Back</a>}
-				<h1 className="heading-first">{this.props.title}</h1>
-				{this.props.addButton && <a className="add-button button" href="#/add">Add New</a>}
-			</nav>
+			<AppBar
+				title={this.props.title}
+				showMenuIconButton={this.props.backButton === true} 
+				iconElementLeft={<IconButton><ArrowBack /></IconButton>}
+				onLeftIconButtonTouchTap={this.onBackButtonClick}
+			/>
 		)
 		
 	}
