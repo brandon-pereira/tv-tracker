@@ -2,7 +2,7 @@ var path = require('path');
 
 module.exports = {
 	// watch: true,
-  entry: './src/scripts/app.js',
+  entry: './scripts/app.js',
   output: {
     path: path.join(__dirname, 'app'),
     filename: 'app.js'

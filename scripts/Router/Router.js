@@ -5,11 +5,13 @@ function errorLoading(error) {
 
 // Loading modules!
 function loadRoute(cb) {
-  return module => cb(null, module.default);
+  // testing throttling with timeout 
+  return module => setTimeout(() => {cb(null, module.default)}, 0);
 }
 
 const routes = {
   path: '/',
+  // component: Core,
   indexRoute: { // Default Route 
     getComponent(location, cb) {
       import('../Views/Homescreen')
