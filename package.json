@@ -28,7 +28,7 @@
     "webpack": "^2.2.1"
   },
   "scripts": {
-    "run": "electron .",
+    "app": "electron .",
     "build": "NODE_ENV='production' webpack -p --optimize-minimize",
     "start": "webpack-dev-server --publicPath ./ --inline --content-base app/ -d"
   },
