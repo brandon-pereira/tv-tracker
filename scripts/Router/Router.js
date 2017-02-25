@@ -6,7 +6,7 @@ function errorLoading(error) {
 // Loading modules!
 function loadRoute(cb) {
   // testing throttling with timeout 
-  return module => setTimeout(() => {cb(null, module.default)}, 0);
+  return module => cb(null, module.default);
 }
 
 const routes = {
