@@ -16,7 +16,6 @@ class TrackerService {
 	getShowByTitle(title) {
 		return this._lookupShowByTitle(title)
 			.then((show) => this._getShowData(show))
-			// .then((magx/wnetUrl) => this._downloadShow(magnetUrl))
 	}
 	
 	_lookupShowByTitle(title) {
@@ -45,7 +44,7 @@ class TrackerService {
 			
 			torrent.on('done', function(){
 				console.log('torrent finished downloading');
-			})
+			});
 		})
 	}
 
