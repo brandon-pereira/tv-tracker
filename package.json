@@ -5,6 +5,7 @@
   "repository": "https://github.com/brandon-pereira/tv-tracker",
   "main": "main.js",
   "dependencies": {
+    "eztv-api-pt": "^1.0.12",
     "material-ui": "^0.17.0",
     "moment": "^2.17.1",
     "react": "^15.4.2",
@@ -25,7 +26,8 @@
     "node-sass": "^4.0.0",
     "sass-loader": "^4.1.0",
     "style-loader": "^0.13.1",
-    "webpack": "^2.2.1"
+    "webpack": "^2.2.1",
+    "webtorrent": "^0.98.18"
   },
   "scripts": {
     "app": "electron .",
