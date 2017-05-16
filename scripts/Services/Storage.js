@@ -10,8 +10,19 @@ function getShows() {
 	return JSON.parse(localStorage.getItem('shows')) || [];
 }
 
+function deleteShow(show_id) {
+	var currentShows = getShows();
+	currentShows.forEach((show, i) => {
+		if(show.id === show_id) {
+			currentShows.splice(i, 1);
+			setShows(currentShows); // we shouldn't need to sort again?
+			return true;
+		}
+	});
+	return false;
+}
+
 function setShows(shows) {
-	console.log(shows);
 	localStorage.setItem('shows', JSON.stringify(uniqBy(shows, 'id')));
 }
 
@@ -24,4 +35,4 @@ function sortShows(unsortedShows) {
 	});
 }
 
-export default {addShow, getShows};
+export default {addShow, getShows, deleteShow};
