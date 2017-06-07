@@ -47,11 +47,11 @@ export default class SearchScreen extends React.Component {
 			padding: '0 24px'
 		};
 		return (
-		 <div className="addscreen-container">
-			 <Navigation title="Add Show" backButton={true} />
-			 <TextField style={divStyle} underlineStyle={lineStyle} hintStyle={inputStyle} inputStyle={inputStyle} hintText="Search..." onChange={this.onInputChange.bind(this)} />
-			 <ShowList onClick={this.onShowClick} list={this.state.shows} hasAirTime={false}></ShowList>
-		 </div>
+			<div className="addscreen-container">
+				<Navigation title="Add Show" backButton={true} />
+				<TextField style={divStyle} underlineStyle={lineStyle} hintStyle={inputStyle} inputStyle={inputStyle} hintText="Search..." onChange={this.onInputChange.bind(this)} />
+				<ShowList onClick={this.onShowClick} list={this.state.shows} hasAirTime={false}></ShowList>
+			</div>
 		)
 	}
 }

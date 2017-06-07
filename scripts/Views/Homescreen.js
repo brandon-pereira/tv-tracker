@@ -12,7 +12,7 @@ export default class HomeScreen extends React.Component {
 		super(props);
 		this.state = { // the one truth
 			shows: Storage.getShows() || []
-		}; 
+		};
 		console.log("HomeScreen: TV Shows", this.state);
 	}
 	
@@ -24,13 +24,13 @@ export default class HomeScreen extends React.Component {
 			position: 'fixed'
 		};
 		return (
-		 <div>
-				<Navigation title="TV Tracker" />			
-					<ShowList onClick={() => {}} list={this.state.shows} highResolution={true} hasActionMenu={true} />		
+			<div>
+				<Navigation title="TV Tracker" />
+					<ShowList onClick={() => {}} list={this.state.shows} highResolution={true} hasActionMenu={true} />
 				<FloatingActionButton href="#add" className="add-button" secondary={true} style={addStyles}>
 					<ContentAdd />
-			 	</FloatingActionButton>
-		 </div>
+				</FloatingActionButton>
+			</div>
 		)
 	}
 }
