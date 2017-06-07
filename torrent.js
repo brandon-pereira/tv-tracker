@@ -1,9 +1,11 @@
-const  tracker = require('./scripts/services/tracker2');
+const eztv = require('./scripts/services/eztv');
 
-tracker.getShowByTitle("Mr. Robot").then((show) => {
-	const episode = show.episodes['1']['2'];
-	const magnetUrl = episode['720p'].url;
-	tracker._downloadShow(episode['480p'].url);
+eztv.getShowByTitle("Mr. Robot")
+	.then((show) => eztv.getEpisodeFromShow(show, 1, 2))
+	.then((episode) => {
+		const magnetUrl = episode['720p'].url;
+		console.log("found show.. preparing to download");
+		tracker._downloadShow(episode['480p'].url);
 
 }).catch((e) => {
 	console.log(e);

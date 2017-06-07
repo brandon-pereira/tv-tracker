@@ -1,7 +1,6 @@
 const EZTV = require('eztv-api-pt');
-const WebTorrent = require('webtorrent')
 
-class TrackerService {
+class EZTVService {
 	
 	constructor() {
 		this.eztv = new EZTV({}); // eztv lookup service
@@ -16,6 +15,17 @@ class TrackerService {
 	getShowByTitle(title) {
 		return this._lookupShowByTitle(title)
 			.then((show) => this._getShowData(show))
+	}
+	
+	getEpisodeFromShow(show, season, episode) {
+		if(show.hasOwnProperty('episodes')) {
+			return this.getEpisodeFromShow(show.episodes, season, episode);
+		}
+		if(show.hasOwnProperty(season.toString()) && show[season.toString()].hasOwnProperty(episode.toString())) {
+			return show[season][episode];
+		}
+		console.log(`Show doesn't have a season ${season} episode ${episode}`);
+		return null;
 	}
 	
 	_lookupShowByTitle(title) {
@@ -44,11 +54,12 @@ class TrackerService {
 			
 			torrent.on('done', function(){
 				console.log('torrent finished downloading');
+				process.exit(0);
 			});
 		})
 	}
 
 }
 
-let instance = new TrackerService();
+let instance = new EZTVService();
 module.exports = instance;
