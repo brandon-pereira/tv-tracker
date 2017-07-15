@@ -3,20 +3,12 @@ import React from 'react';
 // Components
 import ShowList from '../Components/ShowList';
 import Navigation from '../Components/Navigation';
-import Storage from '../Services/Storage';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import {observer, inject} from 'mobx-react';
 
 @inject("state") @observer
 export default class HomeScreen extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = { // the one truth
-			shows: Storage.getShows() || []
-		};
-		console.log("HomeScreen: TV Shows", this.state);
-	}
 	
 	render() {
 		const addStyles = {
@@ -27,9 +19,8 @@ export default class HomeScreen extends React.Component {
 		};
 		return (
 			<div>
-				<span>{this.props.state.timer}</span>
 				<Navigation title="TV Tracker" />
-				<ShowList onClick={() => {}} list={this.state.shows} highResolution={true} hasActionMenu={true} />
+				<ShowList onClick={() => {}} list={this.props.state.tvShows} highResolution={true} hasActionMenu={true} />
 				<FloatingActionButton href="#add" className="add-button" secondary={true} style={addStyles}>
 					<ContentAdd />
 				</FloatingActionButton>

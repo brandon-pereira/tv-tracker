@@ -81,7 +81,7 @@ module.exports = {
     "new-parens": 2,
     "newline-after-var": 0,
     "newline-per-chained-call": 0,
-    "no-alert": 2,
+    "no-alert": 0,
     "no-array-constructor": 2,
     "no-bitwise": 2,
     "no-caller": 2,

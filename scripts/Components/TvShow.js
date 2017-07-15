@@ -20,16 +20,16 @@ class TvShow extends React.Component {
 	}
 
 	/**
-	 * Function to return an image. Returns low-resolution by default, but if 'highResolution' 
+	 * Function to return an image. Returns low-resolution by default, but if 'highResolution'
 	 * is passed in will render high res. Will return empty string if contains invalid json.
 	 */
 	getImage() {
 		if(this.props && this.props.show && this.props.show.image && this.props.show.image.medium) {
 			if(this.props.highResolution && this.props.show.image.original) {
-				return this.props.show.image.original; 
+				return this.props.show.image.original;
 			}
 			if(this.props.show.image.medium) {
-				return this.props.show.image.medium;							
+				return this.props.show.image.medium;
 			}
 		}
 		return '';
@@ -59,9 +59,9 @@ class TvShow extends React.Component {
 	render() {
 		const actionMenu = (
 			<IconMenu
-			  iconButtonElement={<IconButton><MoreIcon color="white" /></IconButton>}
-			  anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-			  targetOrigin={{horizontal: 'right', vertical: 'top'}}>
+				iconButtonElement={<IconButton><MoreIcon color="white" /></IconButton>}
+				anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+				targetOrigin={{horizontal: 'right', vertical: 'top'}}>
 				<MenuItem primaryText="Refresh" onTouchTap={this.refresh.bind(this, this.props.show)} />
 				<MenuItem primaryText="Delete" onTouchTap={this.delete.bind(this, this.props.show)} />
 			</IconMenu>
@@ -71,7 +71,7 @@ class TvShow extends React.Component {
           title={this.props.show.name}
           subtitle={this.state.airDate}
 					onTouchTap={this.props.onClick.bind(this, this.props.show)}
-					actionIcon={this.props.hasActionMenu ? actionMenu : <div />} 
+					actionIcon={this.props.hasActionMenu ? actionMenu : <div />}
 				>
           <img draggable="false" src={this.state.image} />
       </GridTile>

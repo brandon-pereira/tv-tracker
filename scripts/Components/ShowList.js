@@ -1,15 +1,11 @@
 import React from 'react';
-import Tracker from "../Services/Tracker";
 import TvShow from './TvShow';
+import {observer} from 'mobx-react';
 
 import {GridList} from 'material-ui/GridList';
 
+@observer
 export default class ShowList extends React.Component {
-	constructor(props) {
-		super(props);
-		console.log(props)
-	}
-
 	
 	render() {
 		const listItems = this.props.list.map((item) => {
@@ -18,8 +14,8 @@ export default class ShowList extends React.Component {
 		});
 		return (
 			<GridList padding={2}>
-			 {listItems}
-		 </GridList>
+				{listItems}
+			</GridList>
 		);
 	}
 }

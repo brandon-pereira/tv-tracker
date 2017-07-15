@@ -1,16 +1,24 @@
 import { observable } from 'mobx';
+import Storage from './Services/Storage';
+import Tracker from './Services/Tracker';
 
 class State {
-  @observable timer = 0;
+  @observable tvShows = [];
 
   constructor() {
-    setInterval(() => {
-      this.timer += 1;
-    }, 1000);
+    this.tvShows = Storage.getShows();
   }
 
-  resetTimer() {
-    this.timer = 0;
+  @observable addShow(showId) {
+    return new Promise((resolve, reject) => {
+      Tracker.getShowDetails(showId).then(show => {
+        Storage.addShow(show);
+        this.tvShows.push(show);
+        resolve(show);
+      }).catch(err => {
+        reject(err);
+      });
+    });
   }
 }
 

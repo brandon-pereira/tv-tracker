@@ -1,17 +1,19 @@
 import React from 'react';
 import ShowList from '../Components/ShowList';
 import Tracker from '../Services/Tracker';
-import Storage from '../Services/Storage';
 import Navigation from '../Components/Navigation';
 import { hashHistory } from 'react-router';
 import TextField from 'material-ui/TextField';
+import {observer, inject} from 'mobx-react';
 
+@inject("state") @observer
 export default class SearchScreen extends React.Component {
+	
 	constructor(props) {
 		super(props);
-		this.state = { // the one truth
+		this.state = {
 			shows: []
-		};
+		}
 	}
 	
 	onInputChange(e) {
@@ -20,12 +22,11 @@ export default class SearchScreen extends React.Component {
 	}
 	
 	onShowClick(show) {
-		Tracker.getShowDetails(show).then((show) => {
-			Storage.addShow(show);
+		this.props.state.addShow(show).then(() => {
 			hashHistory.push('/');
-		}).catch((show) => {
-			Storage.addShow(show);
-			hashHistory.push('/');
+		}).catch((err) => {
+			console.log(err);
+			alert("An unexpected error occured. Please try again.")
 		});
 	}
 	
@@ -50,7 +51,7 @@ export default class SearchScreen extends React.Component {
 			<div className="addscreen-container">
 				<Navigation title="Add Show" backButton={true} />
 				<TextField style={divStyle} underlineStyle={lineStyle} hintStyle={inputStyle} inputStyle={inputStyle} hintText="Search..." onChange={this.onInputChange.bind(this)} />
-				<ShowList onClick={this.onShowClick} list={this.state.shows} hasAirTime={false}></ShowList>
+				<ShowList onClick={this.onShowClick.bind(this)} list={this.state.shows} hasAirTime={false}></ShowList>
 			</div>
 		)
 	}

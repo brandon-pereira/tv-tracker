@@ -7,7 +7,7 @@ class TrackerService {
 	
 	getByName(name) {
 		console.info("search by name", name);
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			$http.json("http://api.tvmaze.com/search/shows?q=" + name)
 				.then((resp) => {
 					resolve(resp);
@@ -17,11 +17,11 @@ class TrackerService {
 	
 	getShowDetails(show) {
 		console.info("Get show details", show);
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			this.getNextAirDate(show).then((nextepisode) => {
 				show.nextepisode = nextepisode;
 				resolve(show);
-			}).catch(() => reject(show));
+			}).catch(() => resolve(show));
 		});
 	}
 	
@@ -40,5 +40,5 @@ class TrackerService {
 	}
 }
 
-let instance = new TrackerService();
+const instance = new TrackerService();
 export default instance;
