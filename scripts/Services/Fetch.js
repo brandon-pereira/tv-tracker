@@ -6,11 +6,11 @@
  */
 function get(url, type="GET") {
   return new Promise(function(resolve, reject) {
-    let req = new XMLHttpRequest();
+    const req = new XMLHttpRequest();
     req.open(type, url);
     req.onload = function() {
       if (req.status === 200) {
-      	resolve(req.responseText);
+        resolve(req.responseText);
       } else {
         reject(new Error(req.statusText));
       }
