@@ -4,8 +4,10 @@ import IconButton from 'material-ui/IconButton';
 import MoreIcon from 'material-ui/svg-icons/navigation/more-vert';
 import MenuItem from 'material-ui/MenuItem';
 import IconMenu from 'material-ui/IconMenu';
-import Storage from '../Services/Storage';
+import {inject} from 'mobx-react';
 
+
+@inject("state")
 class TvShow extends React.Component {
 	constructor(props) {
 		super(props);
@@ -52,8 +54,7 @@ class TvShow extends React.Component {
 	}
 	
 	delete(show) {
-		console.log("Delete");
-		Storage.deleteShow(show.id);
+		this.props.state.deleteShow(show.id);
 	}
 	
 	render() {

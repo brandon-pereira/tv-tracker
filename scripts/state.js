@@ -9,7 +9,7 @@ class State {
     this.tvShows = Storage.getShows();
   }
 
-  @observable addShow(showId) {
+  addShow(showId) {
     return new Promise((resolve, reject) => {
       Tracker.getShowDetails(showId).then(show => {
         Storage.addShow(show);
@@ -19,6 +19,18 @@ class State {
         reject(err);
       });
     });
+  }
+  
+  deleteShow(showId) {
+    const shows = this.tvShows;
+    shows.forEach((show, i) => {
+      if(show.id === showId) {
+        shows.splice(i, 1);
+        Storage.setShows(shows); // we shouldn't need to sort again?
+        return true;
+      }
+    });
+    return false;
   }
 }
 
