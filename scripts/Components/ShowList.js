@@ -2,8 +2,7 @@ import React from 'react';
 import TvShow from './TvShow';
 import {observer} from 'mobx-react';
 
-import {GridList} from 'material-ui/GridList';
-
+import Grid from 'material-ui/Grid';
 @observer
 export default class ShowList extends React.Component {
 	
@@ -13,9 +12,9 @@ export default class ShowList extends React.Component {
 			return <TvShow hasActionMenu={this.props.hasActionMenu === true} onClick={this.props.onClick} highResolution={this.props.highResolution === true} key={item.id} show={item} hasAirTime={this.props.hasAirTime}></TvShow>
 		});
 		return (
-			<GridList padding={2}>
+			<Grid padding={2}>
 				{listItems}
-			</GridList>
+			</Grid>
 		);
 	}
 }

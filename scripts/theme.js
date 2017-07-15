@@ -1,9 +1,9 @@
-import {blue600} from 'material-ui/styles/colors';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+// import {blue600} from 'material-ui/styles/colors';
+import {createMuiTheme} from 'material-ui/styles';
 
-export default getMuiTheme({
-  fontFamily: 'Roboto, sans-serif',
-  palette: {
-    primary1Color: blue600
-  },
-});
+// export default createMuiTheme({
+//   fontFamily: 'Roboto, sans-serif',
+//   palette: {
+//     primary1Color: "#1e88e5"
+//   },
+// });

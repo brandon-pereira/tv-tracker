@@ -1,6 +1,6 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
-import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
+import ArrowBack from 'material-ui-icons/navigatebefore';
 import IconButton from 'material-ui/IconButton'
 import { hashHistory } from 'react-router';
 

@@ -3,8 +3,8 @@ import React from 'react';
 // Components
 import ShowList from '../Components/ShowList';
 import Navigation from '../Components/Navigation';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import Button from 'material-ui/Button';
+import ContentAdd from 'material-ui-icons/add';
 import {observer, inject} from 'mobx-react';
 
 @inject("state") @observer
@@ -21,9 +21,9 @@ export default class HomeScreen extends React.Component {
 			<div>
 				<Navigation title="TV Tracker" />
 				<ShowList onClick={() => {}} list={this.props.state.tvShows} highResolution={true} hasActionMenu={true} />
-				<FloatingActionButton href="#add" className="add-button" secondary={true} style={addStyles}>
+				<Button fab href="#add" className="add-button" secondary={true} style={addStyles}>
 					<ContentAdd />
-				</FloatingActionButton>
+				</Button>
 			</div>
 		)
 	}

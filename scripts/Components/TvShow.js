@@ -1,11 +1,9 @@
 import React from 'react';
-import {GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
-import MoreIcon from 'material-ui/svg-icons/navigation/more-vert';
-import MenuItem from 'material-ui/MenuItem';
-import IconMenu from 'material-ui/IconMenu';
+import MoreIcon from 'material-ui-icons/navigation';
+import Menu, { MenuItem } from 'material-ui/Menu';
 import {inject} from 'mobx-react';
-
+import Grid from 'material-ui/Grid';
 
 @inject("state")
 class TvShow extends React.Component {
@@ -59,23 +57,23 @@ class TvShow extends React.Component {
 	
 	render() {
 		const actionMenu = (
-			<IconMenu
+			<Menu
 				iconButtonElement={<IconButton><MoreIcon color="white" /></IconButton>}
 				anchorOrigin={{horizontal: 'right', vertical: 'top'}}
 				targetOrigin={{horizontal: 'right', vertical: 'top'}}>
 				<MenuItem primaryText="Refresh" onTouchTap={this.refresh.bind(this, this.props.show)} />
 				<MenuItem primaryText="Delete" onTouchTap={this.delete.bind(this, this.props.show)} />
-			</IconMenu>
+			</Menu>
 		)
 		return (
-			<GridTile
+			<Grid item>
           title={this.props.show.name}
           subtitle={this.state.airDate}
 					onTouchTap={this.props.onClick.bind(this, this.props.show)}
 					actionIcon={this.props.hasActionMenu ? actionMenu : <div />}
 				>
           <img draggable="false" src={this.state.image} />
-      </GridTile>
+      </Grid>
 		)
 	}
 }
