@@ -5,6 +5,7 @@ import Navigation from '../Components/Navigation';
 import { hashHistory } from 'react-router';
 import TextField from 'material-ui/TextField';
 import {observer, inject} from 'mobx-react';
+import Snackbar from 'material-ui/Snackbar';
 
 @inject("state") @observer
 export default class SearchScreen extends React.Component {
@@ -12,7 +13,11 @@ export default class SearchScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			shows: []
+			shows: [],
+			error: {
+				hasError: false,
+				errorMsg: "An unexpected error occured. Please try again."
+			}
 		}
 	}
 	
@@ -26,7 +31,7 @@ export default class SearchScreen extends React.Component {
 			hashHistory.push('/');
 		}).catch((err) => {
 			console.log(err);
-			alert("An unexpected error occured. Please try again.")
+			this.setState({error: {hasError: true}})
 		});
 	}
 	
@@ -52,6 +57,10 @@ export default class SearchScreen extends React.Component {
 				<Navigation title="Add Show" backButton={true} />
 				<TextField style={divStyle} underlineStyle={lineStyle} hintStyle={inputStyle} inputStyle={inputStyle} hintText="Search..." onChange={this.onInputChange.bind(this)} />
 				<ShowList onClick={this.onShowClick.bind(this)} list={this.state.shows} hasAirTime={false}></ShowList>
+				<Snackbar
+					open={this.state.error.hasError}
+					message={<span id="message-id">An unexpected error occured. Please try again.</span>}
+				/>
 			</div>
 		)
 	}
