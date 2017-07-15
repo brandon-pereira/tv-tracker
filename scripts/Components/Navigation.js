@@ -5,9 +5,6 @@ import IconButton from 'material-ui/IconButton'
 import { hashHistory } from 'react-router';
 
 export default class Navigation extends React.Component {
-	constructor(props) {
-		super(props);
-	}
 	
 	onBackButtonClick() {
 		hashHistory.push('/');
@@ -17,7 +14,7 @@ export default class Navigation extends React.Component {
 		return (
 			<AppBar
 				title={this.props.title}
-				showMenuIconButton={this.props.backButton === true} 
+				showMenuIconButton={this.props.backButton === true}
 				iconElementLeft={<IconButton><ArrowBack /></IconButton>}
 				onLeftIconButtonTouchTap={this.onBackButtonClick}
 			/>

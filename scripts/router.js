@@ -5,16 +5,15 @@ function errorLoading(error) {
 
 // Loading modules!
 function loadRoute(cb) {
-  // testing throttling with timeout 
+  // testing throttling with timeout
   return module => cb(null, module.default);
 }
 
 const routes = {
   path: '/',
-  // component: Core,
-  indexRoute: { // Default Route 
+  indexRoute: { // Default Route
     getComponent(location, cb) {
-      import('../Views/Homescreen')
+      import('./Views/Homescreen')
         .then(loadRoute(cb))
         .catch(errorLoading);
     },
@@ -23,7 +22,7 @@ const routes = {
     {
       path: 'add',
       getComponent(location, cb) {
-        import('../Views/SearchScreen')
+        import('./Views/SearchScreen')
           .then(loadRoute(cb, false))
           .catch(errorLoading);
       },

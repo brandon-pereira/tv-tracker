@@ -8,19 +8,20 @@ module.exports = {
     filename: 'app.js'
   },
 	module: {
-	  loaders: [
-	    {
-	      test: /\.js$/,
-	      exclude: /(node_modules|bower_components)/,
-	      loader: 'babel-loader',
-	      query: {
-	        presets: ['es2015', 'react']
-	      }
-	    },
+    loaders: [
+    {
+      test: /\.js$/,
+      exclude: /(node_modules|bower_components)/,
+      loader: 'babel-loader',
+      query: {
+          "presets": ["es2015", "stage-0", "react"],
+          "plugins": ["transform-decorators-legacy", "transform-decorators"]
+        }
+      },
 			{
-			 test: /\.scss$/,
-			 loaders: ["style-loader", "css-loader", "sass-loader"]
-		 }
-	  ]
+       test: /\.scss$/,
+       loaders: ["style-loader", "css-loader", "sass-loader"]
+     }
+    ]
 	}
 };

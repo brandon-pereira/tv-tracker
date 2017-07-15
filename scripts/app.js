@@ -1,18 +1,26 @@
 import React from 'react';
 import { render } from 'react-dom';
+
+// Router
 import { Router, hashHistory } from 'react-router';
-import routes from './Router/Router';
-import register from './Services/ServiceWorker';
+import routes from './Router';
 
 // MUI
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import theme from './theme';
 
+// State
+import State from './Data/State';
+import { Provider } from 'mobx-react';
+const state = new State();
+
 // Touch Events
 import('react-tap-event-plugin').then(injectTapEventPlugin => injectTapEventPlugin());
 
 render((
-	<MuiThemeProvider muiTheme={theme}>
-  	<Router history={hashHistory} routes={routes}></Router>
-	</MuiThemeProvider>
+  <Provider state={state}>
+    <MuiThemeProvider muiTheme={theme}>
+      <Router history={hashHistory} routes={routes}></Router>
+    </MuiThemeProvider>
+  </Provider>
 ), document.getElementById('root'));

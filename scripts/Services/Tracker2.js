@@ -19,9 +19,7 @@ class TrackerService {
 	}
 	
 	_lookupShowByTitle(title) {
-		return this.shows.then(shows => {
-			return shows.filter(entry => entry.show === title)[0];
-		});
+		return this.shows.then(shows => shows.filter(entry => entry.show === title)[0]);
 	}
 	
 	_getShowData(show) {
@@ -30,13 +28,13 @@ class TrackerService {
 
 	_downloadShow(magnetUrl) {
 		this.torrent.add(magnetUrl, {
-			// path: this.options.downloadLocation
+			path: this.options.downloadLocation
 		}, (torrent) => {
 			torrent.on('ready', () => {
 				console.log('Client is downloading:', torrent.infoHash, torrent.path)
 			});
 
-			torrent.on('download', function (bytes) {
+			torrent.on('download', function () {
 				console.log('total downloaded: ' + torrent.downloaded);
 				console.log('download speed: ' + torrent.downloadSpeed)
 				console.log('progress: ' + torrent.progress)
@@ -50,5 +48,5 @@ class TrackerService {
 
 }
 
-let instance = new TrackerService();
+const instance = new TrackerService();
 module.exports = instance;
