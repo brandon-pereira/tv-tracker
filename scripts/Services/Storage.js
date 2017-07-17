@@ -1,17 +1,29 @@
-import uniqBy from 'lodash/uniqBy';
-
 function addShow(show) {
 	var currentShows = getShows();
 	currentShows.push(show);
-	setShows(sortShows(currentShows));
+	return setShows(sortShows(currentShows));
 }
 
 function getShows() {
-	return JSON.parse(localStorage.getItem('shows')) || [];
+	const shows = JSON.parse(localStorage.getItem('shows')) || [];
+	return uniq(shows);
 }
 
 function setShows(shows) {
-	localStorage.setItem('shows', JSON.stringify(uniqBy(shows, 'id')));
+	shows = uniq(shows);
+	localStorage.setItem('shows', JSON.stringify(shows));
+	return shows;
+}
+
+function uniq(shows) {
+	const validIds = [];
+	return shows.filter((show) => {
+		if(validIds.indexOf(show.id) !== -1) {
+			return false;
+		}
+		validIds.push(show.id);
+		return true;
+	});
 }
 
 function sortShows(unsortedShows) {

@@ -12,8 +12,7 @@ class State {
   addShow(showId) {
     return new Promise((resolve, reject) => {
       Tracker.getShowDetails(showId).then(show => {
-        Storage.addShow(show);
-        this.tvShows.push(show);
+        this.tvShows = Storage.addShow(show);
         resolve(show);
       }).catch(err => {
         reject(err);
