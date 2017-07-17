@@ -49,8 +49,8 @@ class TvShow extends React.Component {
 		}
 	}
 	
-	refresh() {
-		console.log("Refresh");
+	refresh(show) {
+		this.props.state.refreshShow(show);
 	}
 	
 	delete(show) {
@@ -67,10 +67,14 @@ class TvShow extends React.Component {
 				<MenuItem primaryText="Delete" onTouchTap={this.delete.bind(this, this.props.show)} />
 			</IconMenu>
 		)
+		let subtitle = this.state.airDate
+		if(this.props.show.isRefreshing) {
+			subtitle = "Refreshing...";
+		}
 		return (
 			<GridTile
           title={this.props.show.name}
-          subtitle={this.state.airDate}
+          subtitle={subtitle}
 					onTouchTap={this.props.onClick.bind(this, this.props.show)}
 					actionIcon={this.props.hasActionMenu ? actionMenu : <div />}
 				>

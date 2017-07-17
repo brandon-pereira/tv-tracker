@@ -7,6 +7,7 @@ class State {
 
   constructor() {
     this.tvShows = Storage.getShows();
+    this.refreshShows();
   }
 
   addShow(showId) {
@@ -30,6 +31,39 @@ class State {
       }
     });
     return false;
+  }
+  
+  updateShow(newShow) {
+    this.tvShows = this.tvShows.map(currentShow => {
+      if(currentShow.id === newShow.id) {
+        return newShow;
+      }
+      return currentShow;
+    })
+  }
+  
+  refreshShow(show) {
+    return new Promise((resolve, reject) => {
+      show.isRefreshing = true;
+      this.updateShow(show);
+      // TODO: Below doesn't actually refresh next episode metadata
+      Tracker.getShowDetails(show).then(show => {
+        show.isRefreshing = false;
+        this.updateShow(show);
+        resolve(show);
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  }
+  
+  refreshShows() {
+    clearInterval(this.refresher);
+    this.refresher = setInterval(() => {
+      this.tvShows.forEach((show) => {
+        this.refreshShow(show);
+      });
+    }, 30 * 60 * 60 * 1000)
   }
 }
 
