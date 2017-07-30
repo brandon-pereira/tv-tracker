@@ -12,13 +12,8 @@ class TvShow extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			image: this.getImage(),
-			airDate: 'Loading...'
+			image: this.getImage()
 		};
-	}
-	
-	componentDidMount() {
-		this.getAirDate();
 	}
 
 	/**
@@ -35,18 +30,6 @@ class TvShow extends React.Component {
 			}
 		}
 		return '';
-	}
-	
-	getAirDate() {
-		if(this.props.hasAirTime === false) {
-			this.setState({airDate: ''});
-		} else if(this.props && this.props.show && this.props.show.nextepisode && this.props.show.nextepisode.airstamp) {
-			import('moment').then(moment => {
-				this.setState({airDate: moment(this.props.show.nextepisode.airstamp).fromNow()})
-			});
-		} else {
-			this.setState({airDate: 'TBA'});
-		}
 	}
 	
 	refresh(show) {
@@ -67,7 +50,7 @@ class TvShow extends React.Component {
 				<MenuItem primaryText="Delete" onTouchTap={this.delete.bind(this, this.props.show)} />
 			</IconMenu>
 		)
-		let subtitle = this.state.airDate
+		let subtitle = this.props.show.prettyAirDate;
 		if(this.props.show.isRefreshing) {
 			subtitle = "Refreshing...";
 		}

@@ -33,13 +33,28 @@ class State {
     return false;
   }
   
+  getAirDate(show) {
+    if(show && show.nextepisode && show.nextepisode.airstamp) {
+      show.isRefreshing = true;
+      import('moment').then(moment => {
+        show.isRefreshing = false;
+        show.prettyAirDate = moment(show.nextepisode.airstamp).fromNow();
+        this.updateShow(show);
+      });
+    } else {
+      show.prettyAirDate = 'TBA';
+    }
+  }
+  
   updateShow(newShow) {
     this.tvShows = this.tvShows.map(currentShow => {
       if(currentShow.id === newShow.id) {
         return newShow;
       }
       return currentShow;
-    })
+    });
+    this.tvShows = Storage.setShows(this.tvShows);
+    
   }
   
   refreshShow(show) {
@@ -47,22 +62,26 @@ class State {
       show.isRefreshing = true;
       this.updateShow(show);
       // TODO: Below doesn't actually refresh next episode metadata
-      Tracker.getShowDetails(show).then(show => {
-        show.isRefreshing = false;
-        this.updateShow(show);
-        resolve(show);
-      }).catch(err => {
-        reject(err);
+      Tracker.getShowById(show.id)
+        .then(show => {
+          Tracker.getShowDetails(show).then(show => {
+            this.getAirDate(show);
+            this.updateShow(show);
+            resolve(show);
+        }).catch(err => {
+          reject(err);
+        });
       });
     });
   }
   
   refreshShows() {
+    this.tvShows.forEach((show) => {
+      this.refreshShow(show);
+    });
     clearInterval(this.refresher);
     this.refresher = setInterval(() => {
-      this.tvShows.forEach((show) => {
-        this.refreshShow(show);
-      });
+      this.refreshShows();
     }, 30 * 60 * 60 * 1000)
   }
 }

@@ -10,7 +10,7 @@ function getShows() {
 }
 
 function setShows(shows) {
-	shows = uniq(shows);
+	shows = sortShows(uniq(shows));
 	localStorage.setItem('shows', JSON.stringify(shows));
 	return shows;
 }

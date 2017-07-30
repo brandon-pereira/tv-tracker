@@ -15,6 +15,16 @@ class TrackerService {
 		});
 	}
 	
+	getShowById(id) {
+		console.info("search by id", id);
+		return new Promise((resolve) => {
+			$http.json("http://api.tvmaze.com/shows/" + id)
+				.then((resp) => {
+					resolve(resp);
+				});
+		});
+	}
+	
 	getShowDetails(show) {
 		console.info("Get show details", show);
 		return new Promise((resolve) => {
