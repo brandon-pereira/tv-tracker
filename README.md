@@ -22,14 +22,16 @@ This is still being ironed out. Stay tuned!
 
 ## Technical Features
 I built this project (like all other projects) to learn some new stuff. This project utilizes serval new tools including:
-- [Webpack](https://webpack.js.org/)
-	- Code Splitting [COMPLETE]
-	- ES6 Modules [COMPLETE]
-	- ES6 Transpiler [COMPLETE]
+- [Webpack](https://webpack.js.org/) [COMPLETE]
+	- Code Splitting
+	- ES6 Modules
+	- ES6 Transpiler
 - [Service Workers](https://developers.google.com/web/fundamentals/getting-started/primers/service-workers)
 	- Offline support
 	- PWA
 	- Push Notifications
 - [Electron](http://electron.atom.io/) [COMPLETE]
-- [React](https://facebook.github.io/react/) 
-- [WebTorrent](https://github.com/webtorrent/webtorrent) [IN PROGRESS]
+- [React](https://facebook.github.io/react/) [COMPLETE]
+	- [MobX](https://github.com/mobxjs/mobx)
+	-	[material-ui](http://www.material-ui.com/#/)
+- [WebTorrent](https://github.com/webtorrent/webtorrent) [IN PROGRESS (v2)]
