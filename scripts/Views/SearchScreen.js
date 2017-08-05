@@ -50,6 +50,7 @@ export default class SearchScreen extends React.Component {
 			bottom: 0
 		};
 		const inputStyle = {
+			boxSizing: 'border-box',
 			padding: '0 24px'
 		};
 		return (

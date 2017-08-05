@@ -62,7 +62,6 @@ class State {
     return new Promise((resolve, reject) => {
       show.isRefreshing = true;
       this.updateShow(show);
-      // TODO: Below doesn't actually refresh next episode metadata
       Tracker.getShowById(show.id)
         .then(show => {
           Tracker.getShowDetails(show).then(show => {

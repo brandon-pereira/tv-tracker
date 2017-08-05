@@ -11,13 +11,24 @@ export default class Navigation extends React.Component {
 	}
 	
 	render() {
+		const navStyle = {
+			position: 'fixed',
+			top: 0,
+			left: 0,
+			right: 0,
+			zIndex: 1101
+		};
 		return (
-			<AppBar
-				title={this.props.title}
-				showMenuIconButton={this.props.backButton === true}
-				iconElementLeft={<IconButton><ArrowBack /></IconButton>}
-				onLeftIconButtonTouchTap={this.onBackButtonClick}
-			/>
+			<div>
+				<AppBar />
+				<AppBar
+					style={navStyle}
+					title={this.props.title}
+					showMenuIconButton={this.props.backButton === true}
+					iconElementLeft={<IconButton><ArrowBack /></IconButton>}
+					onLeftIconButtonTouchTap={this.onBackButtonClick}
+				/>
+			</div>
 		)
 		
 	}
