@@ -13,6 +13,7 @@ class State {
   addShow(showId) {
     return new Promise((resolve, reject) => {
       Tracker.getShowDetails(showId).then(show => {
+        this.getAirDate(show);
         this.tvShows = Storage.addShow(show);
         resolve(show);
       }).catch(err => {
