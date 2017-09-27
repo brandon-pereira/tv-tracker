@@ -1,4 +1,4 @@
-function register() {
+export default () => {
 	if (navigator.serviceWorker) {
 		console.log("ServiceWorkers are supported");
 		navigator.serviceWorker.register('service-worker.js', {
@@ -11,8 +11,4 @@ function register() {
 			console.log("Failed to register ServiceWorker", error);
 		});
 	}
-}
-
-register();
-
-export default {register};
+};
