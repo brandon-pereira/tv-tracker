@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-	// watch: true,
+	// target: 'electron-renderer',
   entry: './scripts/app.js',
   output: {
     path: path.join(__dirname, 'app'),
