@@ -59,18 +59,22 @@ class State {
   }
   
   refreshShow(show) {
+    console.log("refresh 1");
     return new Promise((resolve, reject) => {
       show.isRefreshing = true;
       this.updateShow(show);
       Tracker.getShowById(show.id)
+        .then(show => Tracker.getShowDetails(show))
         .then(show => {
-          Tracker.getShowDetails(show).then(show => {
-            this.getAirDate(show);
-            this.updateShow(show);
-            resolve(show);
+          this.getAirDate(show);
+          this.updateShow(show);
+          resolve(show);
         }).catch(err => {
-          reject(err);
-        });
+        console.error(`Error refreshing show ${show.id}, got error: `, err);
+        show.isRefreshing = false;
+        this.updateShow(show);
+        
+        resolve(show);
       });
     });
   }

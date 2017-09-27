@@ -24,6 +24,10 @@ export default class HomeScreen extends React.Component {
 				<FloatingActionButton href="#add" className="add-button" secondary={true} style={addStyles}>
 					<ContentAdd />
 				</FloatingActionButton>
+				// <Snackbar TODO: Show error on refresh when offline
+				// 	open={this.state.error.hasError}
+				// 	message={<span id="message-id">An unexpected error occured. Please try again.</span>}
+				// />
 			</div>
 		)
 	}
