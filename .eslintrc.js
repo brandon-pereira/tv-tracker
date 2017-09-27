@@ -4,7 +4,8 @@
 module.exports = {
   "ecmaFeatures": {
     "jsx": true,
-    "modules": true
+    "modules": true,
+    "experimentalDecorators": true
   },
   "env": {
     "node": true,
