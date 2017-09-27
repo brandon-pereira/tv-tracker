@@ -14,6 +14,9 @@ import State from './State';
 import { Provider } from 'mobx-react';
 const state = new State();
 
+import sw from './Services/ServiceWorker';
+sw();
+
 // Touch Events
 import('react-tap-event-plugin').then(injectTapEventPlugin => injectTapEventPlugin());
 
