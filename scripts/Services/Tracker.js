@@ -18,7 +18,7 @@ class TrackerService {
 	getShowById(id) {
 		console.info("search by id", id);
 		return new Promise((resolve, reject) => {
-			$http.json("http://api.tvmaze.com/shows/" + id)
+			$http.json("https://api.tvmaze.com/shows/" + id)
 				.then((resp) => {
 					resolve(resp);
 				})
