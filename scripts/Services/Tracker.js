@@ -40,7 +40,7 @@ class TrackerService {
 		console.info("get next air date", show);
 		return new Promise((resolve, reject) => {
 			if(show && show._links && show._links.nextepisode && show._links.nextepisode.href) {
-				$http.json(show._links.nextepisode.href).then((resp) => {
+				$http.json(show._links.nextepisode.href.replace('http', 'https')).then((resp) => {
 					console.log("next episode", resp);
 					resolve(resp);
 				});
