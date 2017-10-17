@@ -10,7 +10,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import theme from './theme';
 
 // State
-import State from './State';
+import State from './state';
 import { Provider } from 'mobx-react';
 const state = new State();
 
