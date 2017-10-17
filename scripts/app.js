@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 
 // Router
 import { Router, hashHistory } from 'react-router';
-import routes from './Router';
+import routes from './router';
 
 // MUI
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
