@@ -8,7 +8,7 @@ class TrackerService {
 	getByName(name) {
 		console.info("search by name", name);
 		return new Promise((resolve) => {
-			$http.json("http://api.tvmaze.com/search/shows?q=" + name)
+			$http.json("https://api.tvmaze.com/search/shows?q=" + name)
 				.then((resp) => {
 					resolve(resp);
 				});
