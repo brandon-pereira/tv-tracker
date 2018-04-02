@@ -12,7 +12,7 @@ class TvShow extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			image: this.getImage()
+			image: this.getImage().replace('http:', 'https:')
 		};
 	}
 
