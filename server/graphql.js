@@ -31,15 +31,13 @@ module.exports = (app, database) => {
 
     const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-    // const api = express.Router();
-    // api.use((req, res, next) => {
-    //   if(req.user) {
-    //     next();
-    //   } else {
-    //     res.redirect('/');
-    //   }
-    // })
-    // app.use('/api', api);
+    app.use('/graphql', (req, res, next) => {
+        if (req.user) {
+            next();
+        } else {
+            res.status(401).json({data: null, errors: {message: "Not Authorized"}})
+        }
+    });
     app.use('/graphql', graphqlExpress((req) => ({ schema, context: { user: req.user } })));
     app.use('/graphqli', graphiqlExpress({ endpointURL: '/graphql' }));
 }
