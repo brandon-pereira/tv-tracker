@@ -6,5 +6,6 @@ mongoose.connect('mongodb://localhost/tv-tracker', {});
 
 module.exports = {
   connection: mongoose.connection,
-  Users: require('./schemas/user')(mongoose)
+  Users: require('./schemas/User')(mongoose),
+  Schedule: require('./schemas/Schedule')(mongoose)
 };

@@ -25,6 +25,11 @@ require('./server/passport')(app, db);
 require('./server/graphql')(app, db);
 
 /**
+ * Initialize notifier
+ */
+require('./server/scheduler')(db);
+
+/**
  * Start Server
  */
 app.listen(process.env.port || 8080, () => {
