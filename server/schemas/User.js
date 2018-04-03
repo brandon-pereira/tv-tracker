@@ -9,15 +9,6 @@ module.exports = (mongoose) => {
 		creationDate: {
 			type: Date,
 			default: Date.now
-		},
-		profilePicture: String,
-		lastLogin: {
-			type: Date,
-			default: Date.now
-		},
-		isBeta: {
-			type: Boolean,
-			default: false
 		}
 	});
 
