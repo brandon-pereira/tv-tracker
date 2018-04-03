@@ -39,8 +39,7 @@ export function subscribe () {
 		};
 		serviceWorkerRegistration.pushManager.subscribe(subscribeOptions)
 			.then(function (subscription) {
-				// The subscription was successful
-				// subscribeButton.disabled = true;
+
 				console.log(JSON.stringify(subscription));
 		
 				// return sendSubscriptionToServer(subscription);
@@ -55,15 +54,4 @@ export function subscribe () {
 				}
 			});
 	});
-// 	const subscribeOptions = {
-// 		userVisibleOnly: true,
-// 		applicationServerKey: 'BEl62iUYgUivxIkv69yViEuiBIa-Ib9-SkvMeAtA3LFgDzkrxZJjSgSnfckjBJuBkr3qBUYIHBQFLXYp5Nksh8U'
-// 	};
-// 	return reg.pushManager.subscribe(subscribeOptions);
-
-// })
-// 		.then(function (pushSubscription) {
-// 	console.log('Received PushSubscription: ', JSON.stringify(pushSubscription));
-// 	return pushSubscription;
-// })
 }

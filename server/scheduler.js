@@ -1,8 +1,8 @@
 const schedule = require('node-schedule');
 const pushnotifications = require('./pushnotifications');
 
-
 pushnotifications('hello');
+
 module.exports = (db) => {
     const rule = new schedule.RecurrenceRule();
     rule.second = 5;
@@ -19,7 +19,7 @@ module.exports = (db) => {
         console.log('Running job!', Date.now());
         const episodes = await db.Schedule.find({ airDate: { $lt: new Date() } });
         console.log(episodes);
-        pushnotifications(episodes[0].name + 'will air now!');
+        pushnotifications(episodes[0].name + ' will air now!');
 
     });
 }

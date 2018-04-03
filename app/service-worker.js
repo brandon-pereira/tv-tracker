@@ -37,6 +37,7 @@ this.addEventListener('fetch', function(event) {
 
 this.addEventListener('push', function (event) {
 	if (!(self.Notification && self.Notification.permission === 'granted')) {
+		console.error("not granted")
 		return;
 	}
 
@@ -44,23 +45,32 @@ this.addEventListener('push', function (event) {
 	if (event.data) {
 		try {data = event.data.json();}
 		catch(e) {
-			console.warn('not json');
+			// console.warn('not json');
 			data = {}
 		}
 	}
-	var title = data.title || "Something Has Happened";
-	var message = data.message || "Here's something you might want to check out.";
+	var title = data.title || "NOT_DEFINED";
+	var message = data.description || "NOT_DEFINED";
 	var icon = "images/new-notification.png";
-	console.log(Notification.permission);
-	var notification = new Notification(title, {
-		body: message,
-		tag: 'simple-push-demo-notification',
-		icon: icon
-	});
+	// var notification = new Notification(title, {
+	// 	body: message,
+	// 	tag: 'simple-push-demo-notification',
+	// 	icon: icon
+	// });
+	console.log("send", data);
 
-	notification.addEventListener('click', function () {
-		if (clients.openWindow) {
-			clients.openWindow('https://example.blog.com/2015/03/04/something-new.html');
-		}
-	});
+	event.waitUntil(
+		self.registration.showNotification(title, {
+			// body: message,
+			// icon: icon,
+			// tag: 'simple-push-demo-notification',
+			data: Math.random()
+		})
+	);
+
+	// notification.addEventListener('click', function () {
+	// 	if (clients.openWindow) {
+	// 		clients.openWindow('https://example.blog.com/2015/03/04/something-new.html');
+	// 	}
+	// });
 });
