@@ -4,16 +4,6 @@ module.exports = (mongoose) => {
             type: String,
             required: true
         },
-        name: {
-            type: String,
-            required: true
-        },
-        imageUrl: String,
-        subscribedUsers: [
-            {
-                type: String
-            }
-        ],
         airDate: {
             type: Date,
             required: true
@@ -30,5 +20,3 @@ module.exports = (mongoose) => {
 
     return schema;
 }
-
-//https://github.com/node-schedule/node-schedule

@@ -5,10 +5,9 @@ module.exports = (mongoose) => {
             required: true
         },
         name: String,
-        imageUrl: String
+        imageUrl: String,
+        subscribedUsers: [String] // TODO: ref: 'user'???
     });
 
     return schema;
 }
-
-//https://github.com/node-schedule/node-schedule

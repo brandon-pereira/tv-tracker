@@ -9,7 +9,9 @@ module.exports = (mongoose) => {
 		creationDate: {
 			type: Date,
 			default: Date.now
-		}
+		},
+		TvShows: [String],
+		pushSubscription: String
 	});
 
 	schema.findOrCreate = function(id, doc, callback) {
