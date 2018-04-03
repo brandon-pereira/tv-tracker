@@ -37,8 +37,8 @@ const resolvers = {
         //         return c;
         //     });
         // },
-        User: async (root, {id}) => {
-            console.log(id);
+        User: async (root, params, { user }) => {
+            console.log(params, user);
             return await database.Users.findOne({})
         }
     }

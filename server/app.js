@@ -28,7 +28,7 @@ const schema = require('./graphql');
 //   }
 // })
 // app.use('/api', api);
-app.use('/graphql', graphqlExpress({ schema }));
+app.use('/graphql', graphqlExpress((req) => ({ schema, context: {user: req.user} })));
 app.use('/graphqli', graphiqlExpress({ endpointURL: '/graphql' }));
 
 /**
