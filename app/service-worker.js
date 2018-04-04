@@ -50,7 +50,7 @@ this.addEventListener('push', function (event) {
 		}
 	}
 	var title = data.title || "NOT_DEFINED";
-	var message = data.description || "NOT_DEFINED";
+	var message = data.body || "NOT_DEFINED";
 	// var icon = "images/new-notification.png";
 	// var notification = new Notification(title, {
 	// 	body: message,

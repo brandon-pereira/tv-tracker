@@ -1,6 +1,6 @@
 const { makeExecutableSchema } = require('graphql-tools');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
-
+const pushnotifications = require('./pushnotifications');
 module.exports = (app, database) => {
     const typeDefs = `
         type TvShow {
@@ -31,8 +31,16 @@ module.exports = (app, database) => {
     const resolvers = {
         Mutation: {
             setPushSubscription: async(root, args, { user }) => {
-                await database.Users.updateOne({ _id: user._id }, { pushSubscription: args.pushSubscription });
-                return user; // no external user data should be mutated
+                try {
+                    // Attempt to send a push notification to test
+                    await pushnotifications({ title: "You're subscribed!", body: "Time to party!" }, args.pushSubscription);
+                    // It worked, update user
+                    await database.Users.updateOne({ _id: user._id }, { pushSubscription: args.pushSubscription });
+                    // no external user data should be mutated
+                    return user;
+                } catch(err) {
+                    return err;
+                }
             },
             addTVShow: async(root, args, { user }) => {
                 // Add/create TV show and add user as subscribed
@@ -40,7 +48,7 @@ module.exports = (app, database) => {
                 // Add TV show to list of users subscribed shows
                 await database.Users.addShow(user._id, args.id);
                 // TODO: Lookup next episode
-                
+
                 await database.Schedule.schedule({
                     id: show._id,
                     name: show.name,
@@ -77,6 +85,14 @@ module.exports = (app, database) => {
             res.status(401).json({data: null, errors: {message: "Not Authorized"}})
         }
     });
-    app.use('/api', graphqlExpress((req) => ({ schema, context: { user: req.user } })));
+    app.use('/api', graphqlExpress((req) => ({
+        schema,
+        context: { user: req.user },
+        formatError(err) {
+            console.log(err);
+            // errors.report(err, req); // TODO: log errors
+            return err.message;
+        }
+    })));
     app.use('/graphqli', graphiqlExpress({ endpointURL: '/api' }));
 }

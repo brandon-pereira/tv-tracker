@@ -1,3 +1,5 @@
+import graphql from './GraphQL';
+
 export default () => {
 	if (navigator.serviceWorker) {
 		console.log("ServiceWorkers are supported");
@@ -39,10 +41,15 @@ export function subscribe () {
 		};
 		serviceWorkerRegistration.pushManager.subscribe(subscribeOptions)
 			.then(function (subscription) {
-
-				console.log(JSON.stringify(subscription));
-		
-				// return sendSubscriptionToServer(subscription);
+				graphql.fetch(`
+					mutation setPushSubscription($input: String!){
+						setPushSubscription(pushSubscription: $input) {
+							google_id
+						}
+					}`, {
+						input: JSON.stringify(subscription)
+					}
+				)
 			})
 			.catch(function (error) {
 				if (Notification.permission === 'denied') {
