@@ -16,7 +16,8 @@ module.exports = (mongoose) => {
         season: {
             type: Number,
             required: true
-        }
+        },
+        description: String
     });
 
     schema.schedule = async function(show) {

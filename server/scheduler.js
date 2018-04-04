@@ -34,8 +34,9 @@ const sendNotification = async (database, episode) => {
         return Promise.all(episode.TvShow.subscribedUsers.map(async _id => {
             const user = await database.Users.findOne({ _id });
             return await pushnotifications({
-                title: episode.TvShow.name + ' will air now!',
-                body: 'This is the body!',
+                 // Silicon Valley S01E11 will air now!
+                title: `${episode.TvShow.name} S${('0' + episode.season).slice(-2)}E${('0' + episode.episode).slice(-2)} will air now!`,
+                body: episode.description || undefined,
                 image: _get(episode, `TvShow.image.medium`, undefined)
             }, user.pushSubscription)
         }))

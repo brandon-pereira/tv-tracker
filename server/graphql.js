@@ -54,6 +54,7 @@ module.exports = (app, database) => {
                     name: show.name,
                     episode: 1,
                     season: 1,
+                    description: 'The boys have a hard time doing things',
                     airDate: new Date()
                 });
 
