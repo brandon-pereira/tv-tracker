@@ -51,7 +51,7 @@ this.addEventListener('push', function (event) {
 	}
 	var title = data.title || "NOT_DEFINED";
 	var message = data.description || "NOT_DEFINED";
-	var icon = "images/new-notification.png";
+	// var icon = "images/new-notification.png";
 	// var notification = new Notification(title, {
 	// 	body: message,
 	// 	tag: 'simple-push-demo-notification',
@@ -61,7 +61,7 @@ this.addEventListener('push', function (event) {
 
 	event.waitUntil(
 		self.registration.showNotification(title, {
-			// body: message,
+			body: message,
 			// icon: icon,
 			// tag: 'simple-push-demo-notification',
 			data: Math.random()

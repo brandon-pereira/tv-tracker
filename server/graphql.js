@@ -35,8 +35,16 @@ module.exports = (app, database) => {
                 return user; // no external user data should be mutated
             },
             addTVShow: async(root, args, { user }) => {
-                console.log(args);
-                return await database.Users.findOneAndUpdate({ _id: user._id }, { $push: { TvShows: args.id }})
+                // Add/create TV show and add user as subscribed
+                await database.TvShow.addUserToShow(args.id, user._id);
+                // Add TV show to list of users subscribed shows
+                await database.Users.findOneAndUpdate({ _id: user._id }, { $push: { TvShows: args.id }})
+
+                // await new database.Schedule({
+                //     id: args.id,
+
+                // })
+                return show;
             }
         },
         Query: {

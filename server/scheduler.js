@@ -6,9 +6,7 @@ module.exports = (db) => {
     rule.second = 5;
 
     // new db.Schedule({
-    //     id: 1,
-    //     name: 'Mr. Robot',
-    //     subscribedUsers: [1, 34, 44],
+    //     id: 143,
     //     airDate: Date.now(),
     //     season: 1,
     //     episode: 1
@@ -30,7 +28,12 @@ const checkAndSendNotifications = async (db) => {
     }
 }
 
-const getAiredEpisodes = (db, date) => db.Schedule.find({ airDate: { $lt: date } })
+const getAiredEpisodes = async (db, date) => {
+    const aired = await db.Schedule.find({ airDate: { $lt: date }});
+    const episodes = await Promise.all(aired.map(e => db.TvShow.findOne({id: e.id}))) // TODO: use _id
+    console.log(episodes);
+    return episodes;
+}
 
 const sendNotification = (episode) => pushnotifications(episode.name + ' will air now!')
 
