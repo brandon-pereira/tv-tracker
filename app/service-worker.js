@@ -45,25 +45,16 @@ this.addEventListener('push', function (event) {
 	if (event.data) {
 		try {data = event.data.json();}
 		catch(e) {
-			// console.warn('not json');
-			data = {}
+			return;
 		}
 	}
-	var title = data.title || "NOT_DEFINED";
-	var message = data.body || "NOT_DEFINED";
-	// var icon = "images/new-notification.png";
-	// var notification = new Notification(title, {
-	// 	body: message,
-	// 	tag: 'simple-push-demo-notification',
-	// 	icon: icon
-	// });
-	console.log("send", data);
+
+	console.log("receivedNotification", data);
 
 	event.waitUntil(
-		self.registration.showNotification(title, {
-			body: message,
-			// icon: icon,
-			// tag: 'simple-push-demo-notification',
+		self.registration.showNotification(data.title, {
+			body: data.body,
+			icon: data.image,
 			data: Math.random()
 		})
 	);

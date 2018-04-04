@@ -7,7 +7,7 @@ module.exports = (mongoose) => {
             required: true
         },
         name: String,
-        imageUrl: String,
+        image: Object,
         subscribedUsers: [{type: String}]
     });
 

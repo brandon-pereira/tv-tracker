@@ -1,16 +1,10 @@
 const schedule = require('node-schedule');
 const pushnotifications = require('./pushnotifications');
+const _get = require('lodash.get');
 
 module.exports = (db) => {
     const rule = new schedule.RecurrenceRule();
     rule.second = 5;
-    
-    // new db.Schedule({
-    //     id: 143,
-    //     airDate: Date.now(),
-    //     season: 1,
-    //     episode: 1
-    // }).save()
     schedule.scheduleJob(rule, () => checkAndSendNotifications(db));
 };
 
@@ -41,7 +35,8 @@ const sendNotification = async (database, episode) => {
             const user = await database.Users.findOne({ _id });
             return await pushnotifications({
                 title: episode.TvShow.name + ' will air now!',
-                body: 'This is the body!'
+                body: 'This is the body!',
+                image: _get(episode, `TvShow.image.medium`, undefined)
             }, user.pushSubscription)
         }))
     } else {
