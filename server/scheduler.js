@@ -19,12 +19,8 @@ const checkAndSendNotifications = async (db) => {
     const episodes = await getAiredEpisodes(db, new Date());
     if (episodes.length) {
         console.info(`Found ${episodes.length} in the queue. Notifying subscribed users.`);
-        await Promise.all(episodes.map(sendNotification)); // wait till all notifications are sent
-        console.log("Sent!");
+        await Promise.all(episodes.map(episode => sendNotification(db, episode))); // wait till all notifications are sent
         await Promise.all(episodes.map(episode => removeEpisodesFromQueue(db, episode)));
-        console.log("Deleted!");
-    } else {
-        console.info(`Nothing in the queue. :)`)
     }
 }
 
@@ -39,14 +35,18 @@ const getAiredEpisodes = async (db, date) => {
     return episodes;
 }
 
-const sendNotification = async (episode) => {
-    console.log(episode);
-    if(episode && episode.TvShow) {
-        return pushnotifications(episode.TvShow.name + ' will air now!')
+const sendNotification = async (database, episode) => {
+    if (episode && episode.TvShow && episode.TvShow.subscribedUsers && episode.TvShow.subscribedUsers.length) {
+        return Promise.all(episode.TvShow.subscribedUsers.map(async _id => {
+            const user = await database.Users.findOne({ _id });
+            return await pushnotifications({
+                title: episode.TvShow.name + ' will air now!',
+                body: 'This is the body!'
+            }, user.pushSubscription)
+        }))
     } else {
         console.log("sendNotification received corrupted data");
         return;
-        // throw new Error("Invalid Schedule/TV Show!");
     }
 }
 
