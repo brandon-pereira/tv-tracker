@@ -8,7 +8,7 @@ module.exports = (mongoose) => {
         },
         name: String,
         imageUrl: String,
-        subscribedUsers: [{type: String, unique: true}] // TODO: ref: 'user'???
+        subscribedUsers: [{type: String, unique: true}]
     });
 
     schema.findOrCreate = async function(show_id) {
@@ -25,13 +25,13 @@ module.exports = (mongoose) => {
     schema.addUserToShow = async function(show_id, user_id) {
         const show = await this.findOrCreate(show_id);
         // dedupe
-        const users = new Set(show.subscribedUsers);
-        users.add(user_id);
-        show.subscribedUsers = [...users];
+        const users = show.subscribedUsers;
+        users.push(user_id);
+        show.subscribedUsers = [...new Set(users)];
+        show.markModified('subscribedUsers'); // Mark modified so it's resaved
         // save/return
         show.save();
         return show;
     }
-
     return schema;
 }
