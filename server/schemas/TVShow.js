@@ -8,7 +8,10 @@ module.exports = (mongoose) => {
         },
         name: String,
         image: Object,
-        subscribedUsers: [{type: String}]
+        subscribedUsers: [{type: String}],
+        status: String,
+        updated: Number,
+        _links: Object
     });
 
     schema.findOrCreate = async function(show_id) {

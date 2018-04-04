@@ -1,6 +1,13 @@
+const fetch = require('node-fetch');
+
 module.exports = (mongoose) => {
     const schema = mongoose.model('Schedule', {
-        id: {
+        show_id: {
+            type: String,
+            required: true,
+            unique: true
+        },
+        episode_id: {
             type: String,
             required: true,
             unique: true
@@ -9,21 +16,34 @@ module.exports = (mongoose) => {
             type: Date,
             required: true
         },
-        episode: {
+        episodeNumber: {
             type: Number,
             required: true
         },
-        season: {
+        seasonNumber: {
             type: Number,
             required: true
         },
-        description: String
+        name: String,
+        description: String,
+        episode_url: String
     });
 
-    schema.schedule = async function(show) {
-        const exists = await this.findOne({id: show.id});
+    schema.schedule = async function(show_id, episode_url) {
+        const exists = await this.findOne({show_id, episode_url});
         if(!exists) {
-            return await this.create(show);
+            let episode = await fetch(episode_url);
+            episode = await episode.json();
+            return await this.create({
+                show_id,
+                episode_id: episode.id,
+                // airDate: new Date(episode.airstamp),
+                airDate: new Date(),
+                episodeNumber: episode.number,
+                seasonNumber: episode.season,
+                name: episode.name,
+                description: episode.summary,
+            });
         }
         return exists;
     }

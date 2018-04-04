@@ -1,6 +1,8 @@
 const { makeExecutableSchema } = require('graphql-tools');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const pushnotifications = require('./pushnotifications');
+const _get = require('lodash.get');
+
 module.exports = (app, database) => {
     const typeDefs = `
         type TvShow {
@@ -47,17 +49,14 @@ module.exports = (app, database) => {
                 const show = await database.TvShow.addUserToShow(args.id, user._id);
                 // Add TV show to list of users subscribed shows
                 await database.Users.addShow(user._id, args.id);
-                // TODO: Lookup next episode
-
-                await database.Schedule.schedule({
-                    id: show._id,
-                    name: show.name,
-                    episode: 1,
-                    season: 1,
-                    description: 'The boys have a hard time doing things',
-                    airDate: new Date()
-                });
-
+                // If show has next episode, schedule it
+                const nextEpisode = _get(show, `_links.nextepisode.href`, undefined);
+                console.log(nextEpisode);
+                if(nextEpisode) {
+                    // Not using `await` so it does this async
+                    database.Schedule.schedule(show._id, nextEpisode);
+                }
+                // Return show info to front-end
                 return show;
             }
         },
