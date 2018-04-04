@@ -8,7 +8,7 @@ module.exports = (mongoose) => {
         },
         name: String,
         imageUrl: String,
-        subscribedUsers: [{type: String, unique: true}]
+        subscribedUsers: [{type: String}]
     });
 
     schema.findOrCreate = async function(show_id) {

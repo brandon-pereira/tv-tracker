@@ -37,11 +37,11 @@ module.exports = (app, database) => {
             addTVShow: async(root, args, { user }) => {
                 // Add/create TV show and add user as subscribed
                 const show = await database.TvShow.addUserToShow(args.id, user._id);
-                console.log(show);
                 // Add TV show to list of users subscribed shows
                 await database.Users.addShow(user._id, args.id);
                 // TODO: Lookup next episode
-                await database.Schedule.create({
+                
+                await database.Schedule.schedule({
                     id: show._id,
                     name: show.name,
                     episode: 1,
