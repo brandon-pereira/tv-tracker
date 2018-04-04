@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const { getShow } = require('../utils/TvMaze');
 
 module.exports = (mongoose) => {
     const schema = mongoose.model('TvShow', {
@@ -19,8 +19,7 @@ module.exports = (mongoose) => {
         if (_show) {
             return _show;
         } else {
-            let show = await fetch("https://api.tvmaze.com/shows/" + show_id)
-            show = await show.json();
+            const show = await getShow(show_id);
             return await this.create(show);
         }
     }

@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const { getEpisode } = require('../utils/TvMaze');
 
 module.exports = (mongoose) => {
     const schema = mongoose.model('Schedule', {
@@ -32,8 +32,7 @@ module.exports = (mongoose) => {
     schema.schedule = async function(show_id, episode_url) {
         const exists = await this.findOne({show_id, episode_url});
         if(!exists) {
-            let episode = await fetch(episode_url);
-            episode = await episode.json();
+            const episode = await getEpisode(episode_url);
             return await this.create({
                 show_id,
                 episode_id: episode.id,
