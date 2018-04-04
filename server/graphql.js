@@ -46,12 +46,16 @@ module.exports = (app, database) => {
             },
             addTVShow: async(root, args, { user }) => {
                 // Add/create TV show and add user as subscribed
-                const show = await database.TvShow.addUserToShow(args.id, user._id);
+                let show;
+                try {
+                    show = await database.TvShow.addUserToShow(args.id, user._id);
+                } catch(err) {
+                    throw new Error("Invalid Show - Doesn't exist.", err);
+                }
                 // Add TV show to list of users subscribed shows
-                await database.Users.addShow(user._id, args.id);
+                await database.Users.addShow(user._id, show._id);
                 // If show has next episode, schedule it
                 const nextEpisode = _get(show, `_links.nextepisode.href`, undefined);
-                console.log(nextEpisode);
                 if(nextEpisode) {
                     // Not using `await` so it does this async
                     database.Schedule.schedule(show._id, nextEpisode);
