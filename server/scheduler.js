@@ -32,13 +32,22 @@ const getAiredEpisodes = async (db, date) => {
     const aired = await db.Schedule.find({ airDate: { $lt: date }});
     const episodes = await Promise.all(aired.map(async e => {
         e = e.toObject();
-        const show = await db.TvShow.findOne({id: e.id})
+        const show = await db.TvShow.findOne({_id: e.id})
         e.TvShow = show;
         return e;
-    })) // TODO: use _id
+    }));
     return episodes;
 }
 
-const sendNotification = (episode) => pushnotifications(episode.TvShow.name + ' will air now!')
+const sendNotification = async (episode) => {
+    console.log(episode);
+    if(episode && episode.TvShow) {
+        return pushnotifications(episode.TvShow.name + ' will air now!')
+    } else {
+        console.log("sendNotification received corrupted data");
+        return;
+        // throw new Error("Invalid Schedule/TV Show!");
+    }
+}
 
 const removeEpisodesFromQueue = (db, episode) => db.Schedule.remove({_id: episode._id});
