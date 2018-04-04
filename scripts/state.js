@@ -60,7 +60,7 @@ class State {
   
   refreshShow(show) {
     console.log("refresh 1");
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       show.isRefreshing = true;
       this.updateShow(show);
       Tracker.getShowById(show.id)
