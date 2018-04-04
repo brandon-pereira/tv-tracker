@@ -30,7 +30,12 @@ const checkAndSendNotifications = async (db) => {
 
 const getAiredEpisodes = async (db, date) => {
     const aired = await db.Schedule.find({ airDate: { $lt: date }});
-    const episodes = await Promise.all(aired.map(e => db.TvShow.findOne({id: e.id}))) // TODO: use _id
+    const episodes = await Promise.all(aired.map(async e => {
+        const show = await db.TvShow.findOne({id: e.id})
+        e.TvShow = show;
+        console.log(e);
+        return e;
+    })) // TODO: use _id
     console.log(episodes);
     return episodes;
 }

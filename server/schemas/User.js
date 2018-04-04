@@ -14,14 +14,25 @@ module.exports = (mongoose) => {
 		pushSubscription: String
 	});
 
-	schema.findOrCreate = function(id, doc, callback) {
-		this.findOne({google_id: id}, (err, result) => {
-			if(result) {
-				callback(err, result)
-			} else {
-				this.create(doc, (err, result) => callback(err, result));
-			}
-		});
+	// TODO: base this off internal ids (if possible?)
+	schema.findOrCreate = async function(id, doc) {
+		const result = await this.findOne({google_id: id})
+		if(result) {
+			return result;
+		} else {
+			return await this.create(doc);
+		}
+	}
+
+	schema.addShow = async function(user_id, show_id) {
+		const user = await this.findOne({_id: user_id});
+		// dedupe
+		const shows = new Set(user.TvShows);
+		shows.add(show_id);
+		user.TvShows = [...shows];
+		// save/return
+		user.save();
+		return user;
 	}
 	
 	return schema;

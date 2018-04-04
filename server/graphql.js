@@ -36,14 +36,18 @@ module.exports = (app, database) => {
             },
             addTVShow: async(root, args, { user }) => {
                 // Add/create TV show and add user as subscribed
-                await database.TvShow.addUserToShow(args.id, user._id);
+                const show = await database.TvShow.addUserToShow(args.id, user._id);
                 // Add TV show to list of users subscribed shows
-                await database.Users.findOneAndUpdate({ _id: user._id }, { $push: { TvShows: args.id }})
+                await database.Users.addShow(user._id, args.id);
+                // TODO: Add show to scheduler
+                await database.Schedule.create({
+                    id: args.id,
+                    name: show.name,
+                    episode: 1,
+                    season: 1,
+                    airDate: new Date()
+                });
 
-                // await new database.Schedule({
-                //     id: args.id,
-
-                // })
                 return show;
             }
         },
