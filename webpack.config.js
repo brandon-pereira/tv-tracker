@@ -1,28 +1,61 @@
-var path = require('path');
+const config = require('./config');
+const webpack = require('webpack');
+
+const getPlugins = () => {
+	const plugins = [
+		new webpack.optimize.MinChunkSizePlugin({
+			minChunkSize: 10000
+		}),
+		new webpack.optimize.ModuleConcatenationPlugin(), // scope hoisting
+	]
+	
+	if (process.env.NODE_ENV === "production") {
+		plugins.push(...[new webpack.optimize.UglifyJsPlugin({
+			minimize: true,
+			sourceMap: true
+			})]);
+	} else {
+		plugins.push(...[new webpack.SourceMapDevToolPlugin()]);
+	}
+	
+	return plugins;
+}
+
 
 module.exports = {
-	// watch: true,
-	// target: 'electron-renderer',
-  entry: './scripts/app.js',
-  output: {
-    path: path.join(__dirname, 'app'),
-    filename: 'app.js'
-  },
+	entry: config.paths.src.scripts,
+	output: {
+		publicPath: '/scripts/',
+		filename: config.naming.scripts
+	},
 	module: {
-    loaders: [
-    {
-      test: /\.js$/,
-      exclude: /(node_modules|bower_components)/,
-      loader: 'babel-loader',
-      query: {
-          "presets": ["es2015", "stage-0", "react"],
-          "plugins": ["transform-decorators-legacy", "transform-decorators"]
-        }
-      },
+		rules: [
 			{
-       test: /\.scss$/,
-       loaders: ["style-loader", "css-loader", "sass-loader"]
-     }
-    ]
-	}
-};
+				test: /\.js?$/,
+				exclude: /node_modules/,
+				use: [{
+					loader: 'babel-loader',
+					options: {
+						presets: [["env", {
+								"targets": {
+								"browsers": ["last 2 versions"]
+							}
+						}], "stage-0", "react"],
+						plugins: [
+							"transform-decorators-legacy",
+							"transform-decorators",
+							"transform-react-jsx",
+							"add-module-exports", // export default will allow you to import without typing .default
+							"dynamic-import-webpack"
+						]
+					}
+				}]
+			},
+			{
+				test: /\.scss$/,
+				use: ["style-loader", "css-loader", "sass-loader"]
+			}
+		]
+	},
+	plugins: getPlugins()
+}

@@ -6,13 +6,14 @@ function errorLoading(error) {
 // Loading modules!
 function loadRoute(cb) {
   // testing throttling with timeout
-  return module => cb(null, module.default);
+  return module => cb(null, module);
 }
 
 const routes = {
   path: '/',
   indexRoute: { // Default Route
     getComponent(location, cb) {
+      console.log("HERE");
       import('./Views/Homescreen')
         .then(loadRoute(cb))
         .catch(errorLoading);
