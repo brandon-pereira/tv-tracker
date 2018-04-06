@@ -6,7 +6,7 @@ class Server {
     }
 
     fetch(query = {}, variables = {}) {
-        fetch(this.endpoint, {
+        return fetch(this.endpoint, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -16,7 +16,7 @@ class Server {
                 variables
             }),
             credentials: 'same-origin',
-        })
+        }).then(data => data.json())
 
 
     }
