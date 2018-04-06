@@ -19,7 +19,7 @@ addEventListener('activate', () => {
 });
 
 addEventListener('fetch', event => {
-    log("Fetching", event.request);
+    // log("Fetching", event.request);
     event.respondWith(async function() {
         const cachedResponse = await caches.match(event.request);
         // Return cached response

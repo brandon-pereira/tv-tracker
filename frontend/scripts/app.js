@@ -19,10 +19,20 @@ import ServiceWorker from './Services/ServiceWorker';
 import graphql from './Services/GraphQL';
 
 export default () => {
-	console.log(sw);
 	const sw = new ServiceWorker();
-	sw.register();
-	document.querySelector('button').addEventListener('click', () => {
+	const notificationButton = document.querySelector('button')
+	
+	sw.subscribeToNotificationUpdates((status) => {
+		if(status === 'UNKNOWN') {
+			notificationButton.disabled = false;
+			notificationButton.innerText = 'Subscribe';
+		} else {
+			notificationButton.disabled = true;
+			notificationButton.innerText = status === 'ENABLED' ? 'Subscribed!' : 'Disabled'
+		}
+	})
+	
+	notificationButton.addEventListener('click', () => {
 		sw.requestNotificationAccess('BMwwOEdtjKogQbm8_1_eYS2g9y2gIOkp59olsT-Q8MhBGvXj1IQYjYuGIWCTDatQQl4ax3NAh4x6lrwHDcT1fwA')
 			.then(subscription => graphql.fetch(`
 					mutation setPushSubscription($input: String!){
@@ -34,18 +44,7 @@ export default () => {
 			)
 			.catch((e) => {
 				console.error(e);
-			})
-		// .then()
-		// graphql.fetch(`
-		// 			mutation setPushSubscription($input: String!){
-		// 				setPushSubscription(pushSubscription: $input) {
-		// 					google_id
-		// 				}
-		// 			}`, {
-		// 		input: JSON.stringify(subscription)
-		// 	}
-		// )
-	// })
+			});
 	});
 	
 	// render((
