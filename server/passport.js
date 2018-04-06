@@ -8,20 +8,22 @@ module.exports = (app, db) => {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:8080/auth/google/callback"
-  }, (accessToken, refreshToken, profile, cb) => {
-    db.Users.findOrCreate(profile.id, {
+  }, async (accessToken, refreshToken, profile, cb) => {
+    const user = await db.Users.findOrCreate(profile.id, {
       google_id: profile.id,
       firstName: profile.name.givenName,
       lastName: profile.name.familyName
-    }, (err, user) => cb(err, user))
+    });
+    cb(null, user);
   }));
 
   passport.serializeUser(function(user, done) {
     done(null, user._id);
   });
 
-  passport.deserializeUser(function(id, done) {
-    db.Users.findOne({_id: id}, (err, obj) => done(err, obj.toJSON()));
+  passport.deserializeUser(async (id, done) => {
+    const user = await db.Users.findOne({_id: id})
+    done(null, user.toJSON());
   });
 
   app.use(session({
