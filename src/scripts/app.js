@@ -1,4 +1,4 @@
-// import * as sw from './Services/ServiceWorker';
+import ServiceWorker from './Services/ServiceWorker';
 import React from 'react';
 import { render } from 'react-dom';
 
@@ -18,12 +18,20 @@ const state = new State();
 import('react-tap-event-plugin').then(injectTapEventPlugin => injectTapEventPlugin());
 
 export default () => {
-
-render((
-	<Provider state={state}>
-		<MuiThemeProvider muiTheme={theme}>
-		<Router history={hashHistory} routes={routes}></Router>
-		</MuiThemeProvider>
-	</Provider>
-	), document.querySelector('.main-container'));
+	console.log(sw);
+	const sw = new ServiceWorker();
+	sw.register();
+	document.querySelector('button').addEventListener('click', () => {
+		console.log("HERE");
+		sw.requestNotificationAccess('BMwwOEdtjKogQbm8_1_eYS2g9y2gIOkp59olsT-Q8MhBGvXj1IQYjYuGIWCTDatQQl4ax3NAh4x6lrwHDcT1fwA')
+			// .then()
+	});
+// render((
+// 	<Provider state={state}>
+// 		<MuiThemeProvider muiTheme={theme}>
+// 		<Router history={hashHistory} routes={routes}></Router>
+// 		</MuiThemeProvider>
+// 	</Provider>
+// 	), document.querySelector('.main-container'));
+// }
 }
