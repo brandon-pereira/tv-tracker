@@ -1,4 +1,13 @@
+import graphql from './GraphQL';
+
 function addShow(show) {
+	graphql.fetch(`
+		mutation _($input: String!){
+			addTVShow(id: $input) {
+				name
+			}
+		}`, { input: show.id }
+	).then((d) => console.log(d))
 	var currentShows = getShows();
 	currentShows.push(show);
 	return setShows(sortShows(currentShows));
