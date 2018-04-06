@@ -1,4 +1,4 @@
-const  tracker = require('./src/scripts/services/tracker');
+const  tracker = require('./frontend/scripts/services/tracker');
 
 tracker.getShowByTitle("Mr. Robot").then((show) => {
 	const episode = show.episodes['1']['2'];

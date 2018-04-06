@@ -12,25 +12,25 @@ app.use(require('body-parser').urlencoded({ extended: true }));
 /**
  * Get a reference to the database
  */
-const db = require('./server/database');
+const db = require('./backend/database');
 
 /**
  * Passport authentication middleware
  */
-require('./server/passport')(app, db);
+require('./backend/passport')(app, db);
 
 /**
  * GraphQL initialization
  */
-require('./server/graphql')(app, db);
+require('./backend/graphql')(app, db);
 
 /**
  * Initialize notifier
  */
-require('./server/scheduler')(db);
+require('./backend/scheduler')(db);
 
 /**
- * Start Server
+ * Start backend
  */
 app.listen(process.env.SERVER_PORT || 8080, () => {
   console.info("Server started on port", process.env.port || 8080)

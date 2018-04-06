@@ -1,18 +1,18 @@
 module.exports = {
 	paths: {
 		src: {
-			root: './src',
-			scripts: './src/scripts/index.js',
-			html: './src/html/*.html',
-			svg: './src/svgs/*.svg',
-			static: './src/static/**/*'
+			root: './frontend',
+			scripts: './frontend/scripts/index.js',
+			html: './frontend/html/*.html',
+			svg: './frontend/svgs/*.svg',
+			static: './frontend/static/**/*'
 		},
 		dist: './dist',
 		watch: {
-			scripts: ['./src/scripts/**/*.js', './src/styles/**/*.scss'],
-			html: ['./src/html/**/*.html', './src/styles/critical.css'],
-			svg: './src/svgs/*.svg',
-			static: './src/static/**/*'
+			scripts: ['./frontend/scripts/**/*.js', './frontend/styles/**/*.scss'],
+			html: ['./frontend/html/**/*.html', './frontend/styles/critical.css'],
+			svg: './frontend/svgs/*.svg',
+			static: './frontend/static/**/*'
 		}
 	},
 	naming: {
