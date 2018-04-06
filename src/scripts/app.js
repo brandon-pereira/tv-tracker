@@ -1,37 +1,59 @@
 import ServiceWorker from './Services/ServiceWorker';
-import React from 'react';
-import { render } from 'react-dom';
+// import React from 'react';
+// import { render } from 'react-dom';
 
-// Router
-import { Router, hashHistory } from 'react-router';
-import routes from './router';
+// // Router
+// import { Router, hashHistory } from 'react-router';
+// import routes from './router';
 
-// MUI
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import theme from './theme';
+// // MUI
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+// import theme from './theme';
 
-// State
-import State from './state';
-import { Provider } from 'mobx-react';
-const state = new State();
+// // State
+// import State from './state';
+// import { Provider } from 'mobx-react';
+// const state = new State();
 
-import('react-tap-event-plugin').then(injectTapEventPlugin => injectTapEventPlugin());
+// import('react-tap-event-plugin').then(injectTapEventPlugin => injectTapEventPlugin());
+import graphql from './Services/GraphQL';
 
 export default () => {
 	console.log(sw);
 	const sw = new ServiceWorker();
 	sw.register();
 	document.querySelector('button').addEventListener('click', () => {
-		console.log("HERE");
 		sw.requestNotificationAccess('BMwwOEdtjKogQbm8_1_eYS2g9y2gIOkp59olsT-Q8MhBGvXj1IQYjYuGIWCTDatQQl4ax3NAh4x6lrwHDcT1fwA')
-			// .then()
+			.then(subscription => graphql.fetch(`
+					mutation setPushSubscription($input: String!){
+						setPushSubscription(pushSubscription: $input) {
+							google_id
+						}
+					}`, {input: subscription}
+				)
+			)
+			.catch((e) => {
+				console.error(e);
+			})
+		// .then()
+		// graphql.fetch(`
+		// 			mutation setPushSubscription($input: String!){
+		// 				setPushSubscription(pushSubscription: $input) {
+		// 					google_id
+		// 				}
+		// 			}`, {
+		// 		input: JSON.stringify(subscription)
+		// 	}
+		// )
+	// })
 	});
-// render((
-// 	<Provider state={state}>
-// 		<MuiThemeProvider muiTheme={theme}>
-// 		<Router history={hashHistory} routes={routes}></Router>
-// 		</MuiThemeProvider>
-// 	</Provider>
-// 	), document.querySelector('.main-container'));
-// }
+	
+	// render((
+	// 	<Provider state={state}>
+	// 		<MuiThemeProvider muiTheme={theme}>
+	// 		<Router history={hashHistory} routes={routes}></Router>
+	// 		</MuiThemeProvider>
+	// 	</Provider>
+	// 	), document.querySelector('.main-container'));
+	// }
 }
