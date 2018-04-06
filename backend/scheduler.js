@@ -57,7 +57,7 @@ const sendNotification = async (database, episode) => {
             const user = await database.Users.findOne({ _id });
             return await pushnotifications({
                 title: `${episode.TvShow.name} will air now!`,
-                body: `S${('0' + episode.season).slice(-2)}E${('0' + episode.episode).slice(-2)}${episode.name ? ' - ' + episode.name : ''}` || undefined,
+                body: `S${absoluteFormatNumber(episode.seasonNumber)}E${absoluteFormatNumber(episode.episodeNumber)}${episode.name ? ' - ' + episode.name : ''}` || undefined,
                 image: _get(episode, `TvShow.image.medium`, undefined)
             }, user.pushSubscription)
         }))
@@ -68,3 +68,5 @@ const sendNotification = async (database, episode) => {
 }
 
 const removeEpisodesFromQueue = (db, episode) => db.Schedule.remove({_id: episode._id});
+
+const absoluteFormatNumber = (number, fixAmount = 2) => ('0'.repeat(fixAmount) + number).slice(fixAmount * -1);
