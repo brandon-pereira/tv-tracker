@@ -4,9 +4,10 @@ module.exports = function(config, gulp) {
 	
 	gulp.task('server', () =>
 		browserSync.init({
-        server: {
-            baseDir: config.paths.dist
-        }
+        // server: {
+        //     baseDir: config.paths.dist
+        // },
+        proxy: 'localhost:8080'
     })
 	)
 };

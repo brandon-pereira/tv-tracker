@@ -6,6 +6,7 @@
   "main": "main.js",
   "dependencies": {
     "apollo-server-express": "^1.3.4",
+    "concurrently": "^3.5.1",
     "connect-mongo": "^2.0.1",
     "cookie-parser": "^1.4.3",
     "dotenv": "^5.0.1",
@@ -62,7 +63,8 @@
     "build": "NODE_ENV='production' ./node_modules/.bin/gulp build",
     "start:app": "./node_modules/.bin/gulp serve",
     "test": "./node_modules/.bin/eslint test",
-    "start:server": "nodemon index.js"
+    "start:server": "nodemon index.js",
+    "start": "concurrently \"npm run start:app\" \"npm run start:server\""
   },
   "author": "Brandon Pereira",
   "license": "ISC"

@@ -36,4 +36,4 @@ app.listen(process.env.port || 8080, () => {
   console.info("Server started on port", process.env.port || 8080)
 });
 
-app.use('/', express.static('./app'))
+app.use('/', express.static('./dist'))
