@@ -2,7 +2,7 @@ const VERSION = 1;
 const logPrefix = 'ServiceWorker:';
 const log = (...msg) => console.info(logPrefix, ...msg);
 
-this.addEventListener('install', (event) => {
+addEventListener('install', (event) => {
     log("Installing");
     event.waitUntil(async function() {
         const cache = await caches.open(VERSION);
@@ -14,11 +14,11 @@ this.addEventListener('install', (event) => {
     }());
 });
 
-this.addEventListener('activate', () => {
+addEventListener('activate', () => {
     log("Activated");
 });
 
-this.addEventListener('fetch', event => {
+addEventListener('fetch', event => {
     log("Fetching", event.request);
     event.respondWith(async function() {
         const cachedResponse = await caches.match(event.request);
@@ -38,33 +38,34 @@ this.addEventListener('fetch', event => {
     }());
 });
 
-addEventListener('push', function (event) {
-    if (!(self.Notification && self.Notification.permission === 'granted')) {
-        console.error("not granted")
+addEventListener('push', (event) => {
+    let data = {};
+    try {
+        data = event.data.json();
+        if(!data || !data.title) {
+            throw new Error("Missing title or passed string instead of object");
+        }
+    } catch (e) {
+        console.error(e);
         return;
     }
 
-    var data = {};
-    if (event.data) {
-        try { data = event.data.json(); }
-        catch (e) {
-            return;
-        }
-    }
-
-    console.log("receivedNotification", data);
-
+    log("receivedNotification", data);
     event.waitUntil(
         self.registration.showNotification(data.title, {
             body: data.body,
             icon: data.image,
-            data: Math.random()
+            data: data.payload
         })
     );
-
-    // notification.addEventListener('click', function () {
-    // 	if (clients.openWindow) {
-    // 		clients.openWindow('https://example.blog.com/2015/03/04/something-new.html');
-    // 	}
-    // });
 });
+
+addEventListener('notificationclick', (e) => {
+    const clickedNotification = e.notification;
+    clickedNotification.close();
+    log('User clicked notification', clickedNotification);
+    // TODO: How will we manage clicks? We don't want to modify this file too much.
+    // if(clickedNotification.data && clients.openWindow) {
+    //     clients.openWindow('/blah');
+    // }
+})
