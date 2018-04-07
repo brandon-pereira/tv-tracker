@@ -26,7 +26,8 @@ module.exports = (app, database) => {
 
         type Mutation {
             setPushSubscription(pushSubscription: String!): User,
-            addTVShow(id: String!): TvShow
+            addTVShow(id: String!): TvShow,
+            removeTvShow(id: String!) : TvShow,
         }
     `;
 
@@ -62,7 +63,11 @@ module.exports = (app, database) => {
                 }
                 // Return show info to front-end
                 return show;
-            }
+            },
+            removeTvShow: async (root, args, { user }) =>
+                // Add/create TV show and add user as subscribed
+                 await database.TvShow.removeUserFromShow(args.id, user._id)
+            
         },
         Query: {
             User: async (root, args, session) => {
