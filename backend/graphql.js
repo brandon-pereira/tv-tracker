@@ -65,9 +65,17 @@ module.exports = (app, database) => {
             }
         },
         Query: {
-            User: async (root, args, { user }) =>
-                // Returns arged user or current session user.
-                await database.Users.findOne({google_id: args.id || user.google_id}),
+            User: async (root, args, session) => {
+                const user = await database.Users
+                    .findOne({ google_id: args.id || session.user.google_id })
+                    .populate('TvShows').exec();
+
+                if(user) {
+                    return user;
+                } else {
+                    throw Error("Invalid User ID.")
+                }
+            },
             
             TvShow: async (root, args) => {
                 console.log(args);

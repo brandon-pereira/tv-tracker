@@ -1,5 +1,7 @@
+const { Schema } = require('mongoose');
+
 module.exports = (mongoose) => {
-	const schema = mongoose.model('User', {
+	const schema = mongoose.model('Users', {
 		google_id: String,
 		firstName: {
 			type: String,
@@ -10,7 +12,7 @@ module.exports = (mongoose) => {
 			type: Date,
 			default: Date.now
 		},
-		TvShows: [String],
+		TvShows: [{ type: Schema.Types.ObjectId, ref: 'TvShows' }],
 		pushSubscription: String
 	});
 

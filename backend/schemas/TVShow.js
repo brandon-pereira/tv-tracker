@@ -1,14 +1,12 @@
 const { getShow } = require('../utils/TvMaze');
+const { Schema } = require('mongoose');
 
 module.exports = (mongoose) => {
-    const schema = mongoose.model('TvShow', {
-        id: {
-            type: String,
-            required: true
-        },
+    const schema = mongoose.model('TvShows', {
+        _id: Schema.Types.ObjectId,
         name: String,
         image: Object,
-        subscribedUsers: [{type: String}],
+        subscribedUsers: [{ type: Schema.Types.ObjectId, ref: 'TvShows' }],
         status: String,
         updated: Number,
         _links: Object
