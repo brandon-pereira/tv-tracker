@@ -65,7 +65,7 @@ addEventListener('notificationclick', (e) => {
     clickedNotification.close();
     log('User clicked notification', clickedNotification);
     // TODO: How will we manage clicks? We don't want to modify this file too much.
-    // if(clickedNotification.data && clients.openWindow) {
-    //     clients.openWindow('/blah');
-    // }
+    if( self.clients.openWindow) {
+        event.waitUntil(self.clients.openWindow('/#/show/1234'));
+    }
 })
