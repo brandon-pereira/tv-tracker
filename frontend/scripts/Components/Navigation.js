@@ -2,6 +2,7 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import IconButton from 'material-ui/IconButton'
+import FlatButton from 'material-ui/FlatButton'
 import { hashHistory } from 'react-router';
 
 export default class Navigation extends React.Component {
@@ -26,6 +27,7 @@ export default class Navigation extends React.Component {
 					title={this.props.title}
 					showMenuIconButton={this.props.backButton === true}
 					iconElementLeft={<IconButton><ArrowBack /></IconButton>}
+					iconElementRight={<FlatButton label="Login" />}
 					onLeftIconButtonTouchTap={this.onBackButtonClick}
 				/>
 			</div>

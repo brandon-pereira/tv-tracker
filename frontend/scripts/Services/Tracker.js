@@ -1,55 +1,33 @@
-import $http from './Fetch';
-
 class TrackerService {
-	constructor() {
-		console.info("Initialized");
-	}
 	
 	getByName(name) {
-		console.info("search by name", name);
-		return new Promise((resolve) => {
-			$http.json("https://api.tvmaze.com/search/shows?q=" + name)
-				.then((resp) => {
-					resolve(resp);
-				});
-		});
+		return fetch("https://api.tvmaze.com/search/shows?q=" + name)
+			.then(resp => resp.json())
 	}
 	
 	getShowById(id) {
-		console.info("search by id", id);
-		return new Promise((resolve, reject) => {
-			$http.json("https://api.tvmaze.com/shows/" + id)
-				.then((resp) => {
-					resolve(resp);
-				})
-				.catch((err) => reject(err));
-		});
+		return fetch("https://api.tvmaze.com/shows/" + id)
+			.then(resp => resp.json())
 	}
 	
 	getShowDetails(show) {
-		console.info("Get show details", show);
-		return new Promise((resolve) => {
-			this.getNextAirDate(show).then((nextepisode) => {
+		return this.getNextAirDate(show)
+			.then(nextepisode => {
 				show.nextepisode = nextepisode;
-				resolve(show);
-			}).catch(() => resolve(show));
-		});
+				return show;
+			})
+			.catch(() => show);
 	}
 	
 	getNextAirDate(show) {
-		console.info("get next air date", show);
-		return new Promise((resolve, reject) => {
-			if(show && show._links && show._links.nextepisode && show._links.nextepisode.href) {
-				$http.json(show._links.nextepisode.href.replace('http', 'https')).then((resp) => {
-					console.log("next episode", resp);
-					resolve(resp);
-				});
-			} else {
-				reject();
-			}
-		});
+		if(show && show._links && show._links.nextepisode && show._links.nextepisode.href) {
+			const url = show._links.nextepisode.href.replace('http', 'https');
+			return fetch(url)
+				.then(resp => resp.json())
+		} else {
+			return Promise.reject();
+		}
 	}
 }
 
-const instance = new TrackerService();
-export default instance;
+export default new TrackerService();

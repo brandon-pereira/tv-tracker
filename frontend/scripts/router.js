@@ -13,7 +13,6 @@ const routes = {
   path: '/',
   indexRoute: { // Default Route
     getComponent(location, cb) {
-      console.log("HERE");
       import('./Views/Homescreen')
         .then(loadRoute(cb))
         .catch(errorLoading);
