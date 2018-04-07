@@ -19,7 +19,7 @@ module.exports = (mongoose) => {
             return _show;
         } else {
             const show = await getShow(show_id);
-            return await this.create(show);
+            return await this.create(Object.assign(show, { _id: new mongoose.Types.ObjectId()}));
         }
     }
 
