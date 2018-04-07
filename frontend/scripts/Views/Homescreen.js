@@ -3,6 +3,7 @@ import React from 'react';
 // Components
 import ShowList from '../Components/ShowList';
 import Navigation from '../Components/Navigation';
+import NotificationsBox from '../Components/NotificationsBox';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import {observer, inject} from 'mobx-react';
@@ -20,6 +21,7 @@ export default class HomeScreen extends React.Component {
 		return (
 			<div>
 				<Navigation title="TV Tracker" />
+				<NotificationsBox></NotificationsBox>
 				<ShowList onClick={() => {}} list={this.props.state.tvShows} highResolution={true} hasActionMenu={true} />
 				<FloatingActionButton href="#add" className="add-button" secondary={true} style={addStyles}>
 					<ContentAdd />

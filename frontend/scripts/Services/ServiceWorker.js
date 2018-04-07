@@ -1,4 +1,4 @@
-export default class ServiceWorker {
+class ServiceWorker {
 
 	constructor() {
 		this._notificationSubscribers = [];
@@ -32,6 +32,7 @@ export default class ServiceWorker {
 	}
 
 	getNotificationStatus() {
+		this.notificationStatus = 'DISABLED';
 		if (navigator.serviceWorker) {
 			return navigator.serviceWorker.ready
 				.then(reg => reg.pushManager.getSubscription())
@@ -65,6 +66,8 @@ export default class ServiceWorker {
 		}
 	}
 }
+
+export default new ServiceWorker();
 
 // https://gist.github.com/malko/ff77f0af005f684c44639e4061fa8019
 function urlBase64ToUint8Array(base64String) {

@@ -1,13 +1,16 @@
 import { observable } from 'mobx';
 import Storage from './Services/Storage';
 import Tracker from './Services/Tracker';
+import ServiceWorker from './Services/ServiceWorker';
 
 class State {
   @observable tvShows = [];
+  @observable notificationStatus = [];
 
   constructor() {
     this.tvShows = Storage.getShows();
     this.refreshShows();
+    this.getPushNotificationStatus();
   }
 
   addShow(showId) {
@@ -59,7 +62,6 @@ class State {
   }
   
   refreshShow(show) {
-    console.log("refresh 1");
     return new Promise((resolve) => {
       show.isRefreshing = true;
       this.updateShow(show);
@@ -87,6 +89,13 @@ class State {
     this.refresher = setInterval(() => {
       this.refreshShows();
     }, 30 * 60 * 60 * 1000)
+  }
+
+  getPushNotificationStatus() {
+    this.notificationStatus = 'UNKNOWN';
+    ServiceWorker.subscribeToNotificationUpdates((status) => {
+      this.notificationStatus = status;
+    })
   }
 }
 
