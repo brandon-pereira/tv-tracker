@@ -2,11 +2,6 @@
  * Inspired by watson-developer-cloud/node-sdk
  */
 module.exports = {
-  "ecmaFeatures": {
-    "jsx": true,
-    "modules": true,
-    "experimentalDecorators": true
-  },
   "env": {
     "node": true,
     "browser": true,
@@ -15,9 +10,6 @@ module.exports = {
   "parser": "babel-eslint",
   "extends": "eslint:recommended",
   "rules": {
-    "react/jsx-uses-react": 2,
-    "react/jsx-uses-vars": 2,
-    "react/react-in-jsx-scope": 2,
     "no-console": 0,
     "accessor-pairs": 2,
     "array-bracket-spacing": 0,
