@@ -1,12 +1,18 @@
 
-class Server {
+class GraphQL {
 
     constructor() {
         this.endpoint = '/api';
     }
 
-    fetch(query = {}, variables = {}) {
-        return fetch(this.endpoint, {
+    async query(query) {
+        query = `query {${query}}`;
+        return this.fetch(query);
+    }
+
+    async fetch(query = ``, variables = {}) {
+
+        const data = await fetch(this.endpoint, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -16,11 +22,11 @@ class Server {
                 variables
             }),
             credentials: 'same-origin',
-        }).then(data => data.json())
-
+        })
+        return await data.json()
 
     }
 
 }
 
-export default new Server();
+export default new GraphQL();

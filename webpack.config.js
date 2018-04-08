@@ -23,7 +23,7 @@ const getPlugins = () => {
 
 
 module.exports = {
-	entry: config.paths.src.scripts,
+	entry: ['babel-polyfill', config.paths.src.scripts],
 	output: {
 		publicPath: '/scripts/',
 		filename: config.naming.scripts

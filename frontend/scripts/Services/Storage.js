@@ -1,5 +1,49 @@
 import graphql from './GraphQL';
 
+class Storage {
+
+	constructor() {
+		this.currentUser = this.init();
+		this.tvShows = [];
+		this.isLoggedIn = false;
+	}
+
+	async init() {
+		let user = {};
+		// try {
+			user = await graphql.query(`
+				User {
+					firstName,
+					TvShows {
+						id
+					}
+				}`
+			);
+		// } catch(err) {
+		// 	if(err.errors && err.errors.message === 'Not Authorized') {
+				
+		// 	}
+		// }
+
+		console.log(user);
+	}
+
+	async addShow(show) {
+		graphql.fetch(`
+		mutation _($input: String!){
+			addTVShow(id: $input) {
+				name
+			}
+		}`, { input: show.id }
+		).then((d) => console.log(d))
+		var currentShows = getShows();
+		currentShows.push(show);
+		return setShows(sortShows(currentShows));
+	}
+
+}
+new Storage();
+
 function addShow(show) {
 	graphql.fetch(`
 		mutation _($input: String!){
@@ -15,6 +59,7 @@ function addShow(show) {
 
 function getShows() {
 	const shows = JSON.parse(localStorage.getItem('shows')) || [];
+	// const remoteShows = graphql.fetch(`User`)
 	return uniq(shows);
 }
 

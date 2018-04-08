@@ -1,13 +1,13 @@
 class TrackerService {
 	
-	getByName(name) {
-		return fetch("https://api.tvmaze.com/search/shows?q=" + name)
-			.then(resp => resp.json())
+	async getByName(name) {
+		const data = await fetch("https://api.tvmaze.com/search/shows?q=" + name)
+		return await data.json();
 	}
 	
-	getShowById(id) {
-		return fetch("https://api.tvmaze.com/shows/" + id)
-			.then(resp => resp.json())
+	async getShowById(id) {
+		const data = await fetch("https://api.tvmaze.com/shows/" + id)
+		return await data.json();
 	}
 	
 	getShowDetails(show) {

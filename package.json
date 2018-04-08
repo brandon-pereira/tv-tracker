@@ -40,6 +40,7 @@
     "babel-plugin-transform-decorators": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
@@ -65,7 +66,7 @@
     "start:app": "./node_modules/.bin/gulp serve",
     "test": "./node_modules/.bin/eslint test",
     "start:server": "nodemon index.js --ignore dist/ --ignore frontend/",
-    "start": "concurrently \"npm run start:app\" \"npm run start:server\""
+    "start": "concurrently -k \"npm run start:app\" \"npm run start:server\""
   },
   "author": "Brandon Pereira",
   "license": "ISC"
