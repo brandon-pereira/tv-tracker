@@ -27,7 +27,7 @@ class Storage {
 		}
 
 		this.isLoggedIn = true;
-		this.tvShows = this.resolveConflicts(user.TvShows, this._getLocalStorageShows());
+		this.tvShows = this._resolveConflicts(user.TvShows, this._getLocalStorageShows());
 	}
 
 	async addShow(show) {
@@ -48,6 +48,14 @@ class Storage {
 		return this._setLocalStorageShows(this.sortShows(currentShows));
 	}
 
+	getShows() {
+		return this._getLocalStorageShows();
+	}
+
+	setShows(shows) {
+		return this._setLocalStorageShows(shows);
+	}
+
 	_resolveConflicts(remote) {
 		// TODO: Resolve conflicts
 		return remote;
@@ -55,11 +63,11 @@ class Storage {
 
 	_getLocalStorageShows() {
 		const shows = JSON.parse(localStorage.getItem('shows')) || [];
-		return this.uniq(shows);
+		return this._uniq(shows);
 	}
 
 	_setLocalStorageShows(shows) {
-		shows = this.sortShows(this.uniq(shows));
+		shows = this.sortShows(this._uniq(shows));
 		localStorage.setItem('shows', JSON.stringify(shows));
 		return shows;
 	}
