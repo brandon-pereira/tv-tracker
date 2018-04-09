@@ -28,7 +28,7 @@ export default class Navigation extends React.Component {
 					showMenuIconButton={this.props.backButton === true}
 					iconElementLeft={<IconButton><ArrowBack /></IconButton>}
 					iconElementRight={<FlatButton label="Login" />}
-					onLeftIconButtonTouchTap={this.onBackButtonClick}
+					onLeftIconButtonClick={this.onBackButtonClick}
 				/>
 			</div>
 		)
