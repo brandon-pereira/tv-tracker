@@ -37,11 +37,11 @@ class Storage {
 		// Add to server
 		if(this.isLoggedIn) {
 			await graphql.fetch(`
-			mutation _($input: String!){
-				addTVShow(id: $input) {
-					name
-				}
-			}`, { input: show.id }
+				mutation _($input: String!){
+					addTVShow(id: $input) {
+						name
+					}
+				}`, { input: show.id }
 			);
 		}
 		// Return localstorage cache

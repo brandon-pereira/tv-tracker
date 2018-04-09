@@ -14,8 +14,6 @@ import State from './state';
 import { Provider } from 'mobx-react';
 const state = new State();
 
-import('react-tap-event-plugin').then(injectTapEventPlugin => injectTapEventPlugin());
-
 export default () => {
 
 	render((

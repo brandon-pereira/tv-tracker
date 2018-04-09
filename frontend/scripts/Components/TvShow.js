@@ -46,8 +46,8 @@ class TvShow extends React.Component {
 				iconButtonElement={<IconButton><MoreIcon color="white" /></IconButton>}
 				anchorOrigin={{horizontal: 'right', vertical: 'top'}}
 				targetOrigin={{horizontal: 'right', vertical: 'top'}}>
-				<MenuItem primaryText="Refresh" onTouchTap={this.refresh.bind(this, this.props.show)} />
-				<MenuItem primaryText="Delete" onTouchTap={this.delete.bind(this, this.props.show)} />
+				<MenuItem primaryText="Refresh" onClick={this.refresh.bind(this, this.props.show)} />
+				<MenuItem primaryText="Delete" onClick={this.delete.bind(this, this.props.show)} />
 			</IconMenu>
 		)
 		let subtitle = this.props.show.prettyAirDate;
@@ -56,9 +56,9 @@ class TvShow extends React.Component {
 		}
 		return (
 			<GridTile
-          title={this.props.show.name}
-          subtitle={subtitle}
-					onTouchTap={this.props.onClick.bind(this, this.props.show)}
+					title={this.props.show.name}
+					subtitle={subtitle}
+					onClick={this.props.onClick.bind(this, this.props.show)}
 					actionIcon={this.props.hasActionMenu ? actionMenu : <div />}
 				>
           <img draggable="false" src={this.state.image} />

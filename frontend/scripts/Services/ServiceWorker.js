@@ -45,7 +45,7 @@ class ServiceWorker {
 	async requestNotificationAccess (vapid_key) {
 		if (navigator.serviceWorker) {
 			try {
-				const reg = navigator.serviceWorker.ready;
+				const reg = await navigator.serviceWorker.ready;
 				const subscribeOptions = {
 					userVisibleOnly: true,
 					applicationServerKey: this._urlBase64ToUint8Array(vapid_key)

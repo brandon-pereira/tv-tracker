@@ -3,17 +3,14 @@ const webpack = require('webpack');
 
 const getPlugins = () => {
 	const plugins = [
-		new webpack.optimize.MinChunkSizePlugin({
-			minChunkSize: 10000
-		}),
 		new webpack.optimize.ModuleConcatenationPlugin(), // scope hoisting
 	]
 	
 	if (process.env.NODE_ENV === "production") {
-		plugins.push(...[new webpack.optimize.UglifyJsPlugin({
-			minimize: true,
-			sourceMap: true
-			})]);
+		// plugins.push(...[new webpack.optimize.minimize({
+		// 	minimize: true,
+		// 	sourceMap: true
+		// 	})]);
 	} else {
 		plugins.push(...[new webpack.SourceMapDevToolPlugin()]);
 	}
@@ -24,6 +21,7 @@ const getPlugins = () => {
 
 module.exports = {
 	entry: ['babel-polyfill', config.paths.src.scripts],
+	mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 	output: {
 		publicPath: '/scripts/',
 		filename: config.naming.scripts

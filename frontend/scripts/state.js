@@ -13,16 +13,12 @@ class State {
     this.getPushNotificationStatus();
   }
 
-  addShow(showId) {
-    return new Promise((resolve, reject) => {
-      Tracker.getShowDetails(showId).then(show => {
-        this.getAirDate(show);
-        this.tvShows = Storage.addShow(show);
-        resolve(show);
-      }).catch(err => {
-        reject(err);
-      });
-    });
+  async addShow(showId) {
+    const show = await Tracker.getShowDetails(showId);
+    this.getAirDate(show);
+    this.tvShows = await Storage.addShow(show);
+    console.log(this.tvShows);
+    return show;
   }
   
   deleteShow(showId) {
@@ -97,6 +93,8 @@ class State {
       this.notificationStatus = status;
     })
   }
+
+
 }
 
 export default State;
