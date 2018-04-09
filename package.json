@@ -65,7 +65,7 @@
     "build": "NODE_ENV='production' ./node_modules/.bin/gulp build",
     "start:app": "./node_modules/.bin/gulp serve",
     "test": "./node_modules/.bin/eslint test",
-    "start:server": "nodemon index.js --ignore dist/ --ignore frontend/",
+    "start:server": "nodemon server.js --ignore dist/ --ignore frontend/",
     "start": "concurrently -k \"npm run start:app\" \"npm run start:server\""
   },
   "author": "Brandon Pereira",
