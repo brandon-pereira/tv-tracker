@@ -3,14 +3,14 @@ import graphql from './GraphQL';
 class Storage {
 
 	constructor() {
-		this.currentUser = this.init();
 		this.tvShows = [];
 		this.isLoggedIn = false;
+		this.init();
 	}
 
 	async init() {
 		let user = {};
-		// try {
+		try {
 			user = await graphql.query(`
 				User {
 					firstName,
@@ -19,74 +19,71 @@ class Storage {
 					}
 				}`
 			);
-		// } catch(err) {
-		// 	if(err.errors && err.errors.message === 'Not Authorized') {
-				
-		// 	}
-		// }
+		} catch(err) {
+			this.isLoggedIn = false;
+			this.tvShows = this._getLocalStorageShows();
+			this.currentUser = {};
+			return;
+		}
 
-		console.log(user);
+		this.isLoggedIn = true;
+		this.tvShows = this.resolveConflicts(user.TvShows, this._getLocalStorageShows());
 	}
 
 	async addShow(show) {
-		graphql.fetch(`
-		mutation _($input: String!){
-			addTVShow(id: $input) {
-				name
-			}
-		}`, { input: show.id }
-		).then((d) => console.log(d))
-		var currentShows = getShows();
+		// Add to localstorage
+		const currentShows = this._getLocalStorageShows();
 		currentShows.push(show);
-		return setShows(sortShows(currentShows));
+		// Add to server
+		if(this.isLoggedIn) {
+			await graphql.fetch(`
+			mutation _($input: String!){
+				addTVShow(id: $input) {
+					name
+				}
+			}`, { input: show.id }
+			);
+		}
+		// Return localstorage cache
+		return this._setLocalStorageShows(this.sortShows(currentShows));
+	}
+
+	_resolveConflicts(remote) {
+		// TODO: Resolve conflicts
+		return remote;
+	}
+
+	_getLocalStorageShows() {
+		const shows = JSON.parse(localStorage.getItem('shows')) || [];
+		return this.uniq(shows);
+	}
+
+	_setLocalStorageShows(shows) {
+		shows = this.sortShows(this.uniq(shows));
+		localStorage.setItem('shows', JSON.stringify(shows));
+		return shows;
+	}
+
+	_uniq(shows) {
+		const validIds = [];
+		return shows.filter((show) => {
+			if (validIds.indexOf(show.id) !== -1) {
+				return false;
+			}
+			validIds.push(show.id);
+			return true;
+		});
+	}
+
+	sortShows(unsortedShows) {
+		const TBA_DATE = new Date("01/01/3000");
+		return unsortedShows.sort(function (a, b) {
+			a = a.nextepisode ? new Date(a.nextepisode.airstamp) : TBA_DATE;
+			b = b.nextepisode ? new Date(b.nextepisode.airstamp) : TBA_DATE;
+			return a - b;
+		});
 	}
 
 }
-new Storage();
 
-function addShow(show) {
-	graphql.fetch(`
-		mutation _($input: String!){
-			addTVShow(id: $input) {
-				name
-			}
-		}`, { input: show.id }
-	).then((d) => console.log(d))
-	var currentShows = getShows();
-	currentShows.push(show);
-	return setShows(sortShows(currentShows));
-}
-
-function getShows() {
-	const shows = JSON.parse(localStorage.getItem('shows')) || [];
-	// const remoteShows = graphql.fetch(`User`)
-	return uniq(shows);
-}
-
-function setShows(shows) {
-	shows = sortShows(uniq(shows));
-	localStorage.setItem('shows', JSON.stringify(shows));
-	return shows;
-}
-
-function uniq(shows) {
-	const validIds = [];
-	return shows.filter((show) => {
-		if(validIds.indexOf(show.id) !== -1) {
-			return false;
-		}
-		validIds.push(show.id);
-		return true;
-	});
-}
-
-function sortShows(unsortedShows) {
-	const TBA_DATE = new Date("01/01/3000");
-	return unsortedShows.sort(function(a, b) {
-    a = a.nextepisode ? new Date(a.nextepisode.airstamp) : TBA_DATE;
-    b = b.nextepisode ? new Date(b.nextepisode.airstamp) : TBA_DATE;
-    return a - b;
-	});
-}
-
-export default {addShow, setShows, getShows};
+export default new Storage();

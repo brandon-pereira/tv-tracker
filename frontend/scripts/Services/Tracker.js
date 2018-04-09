@@ -10,22 +10,23 @@ class TrackerService {
 		return await data.json();
 	}
 	
-	getShowDetails(show) {
-		return this.getNextAirDate(show)
-			.then(nextepisode => {
-				show.nextepisode = nextepisode;
-				return show;
-			})
-			.catch(() => show);
+	async getShowDetails(show) {
+		try {
+			const nextepisode = await this.getNextAirDate(show)
+			show.nextepisode = nextepisode;
+			return show;
+		} catch(e) {
+			return show;
+		}
 	}
 	
-	getNextAirDate(show) {
+	async getNextAirDate(show) {
 		if(show && show._links && show._links.nextepisode && show._links.nextepisode.href) {
 			const url = show._links.nextepisode.href.replace('http', 'https');
-			return fetch(url)
-				.then(resp => resp.json())
+			const data = await fetch(url)
+			return await data.json();
 		} else {
-			return Promise.reject();
+			throw new Error("No next episode");
 		}
 	}
 }
