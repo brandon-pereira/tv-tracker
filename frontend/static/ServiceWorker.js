@@ -14,8 +14,9 @@ this.addEventListener('install', (event) => {
     }());
 });
 
-this.addEventListener('activate', () => {
+this.addEventListener('activate', (event) => {
     log("Activated");
+    return event.waitUntil(self.clients.claim()); // immediately control activating sw
 });
 
 this.addEventListener('fetch', event => {
@@ -55,17 +56,31 @@ this.addEventListener('push', (event) => {
         self.registration.showNotification(data.title, {
             body: data.body,
             icon: data.image,
-            data: data.payload
+            data: {
+                url: data.url
+            }
         })
     );
 });
 
-this.addEventListener('notificationclick', (e) => {
-    const clickedNotification = e.notification;
+this.addEventListener('notificationclick', (event) => {
+    const clickedNotification = event.notification;
     clickedNotification.close();
     log('User clicked notification', clickedNotification);
     // TODO: How will we manage clicks? We don't want to modify this file too much.
-    if( self.clients.openWindow) {
-        self.event.waitUntil(self.clients.openWindow('/#/show/1234'));
-    }
+    event.waitUntil(
+        async function() {
+            const url = (clickedNotification.data && clickedNotification.data.url) ? clickedNotification.data.url : '/#/';
+            const clientList = await self.clients.matchAll({
+                type: "window"
+            });
+            const isOpen = clientList.find(client => client.focused && client.url.includes('/#/')); // incase its not the webapp
+            log(clientList, isOpen);
+            if(isOpen) {
+                return Promise.all([isOpen.focus(), isOpen.navigate(url)]);
+            } else if (self.clients.openWindow) {
+                return self.clients.openWindow(url);
+            }
+        }()
+    );
 })
