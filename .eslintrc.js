@@ -3,7 +3,8 @@
  */
 module.exports = {
     "env": {
-        "es6": true
+        "es6": true,
+        "node": true // gulp/webpack configs
     },
     "parser": "babel-eslint",
     "extends": "eslint:recommended",
