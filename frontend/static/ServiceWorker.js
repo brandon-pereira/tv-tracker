@@ -67,7 +67,6 @@ this.addEventListener('notificationclick', (event) => {
     const clickedNotification = event.notification;
     clickedNotification.close();
     log('User clicked notification', clickedNotification);
-    // TODO: How will we manage clicks? We don't want to modify this file too much.
     event.waitUntil(
         async function() {
             const url = (clickedNotification.data && clickedNotification.data.url) ? clickedNotification.data.url : '/#/';
