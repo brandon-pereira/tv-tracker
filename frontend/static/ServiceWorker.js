@@ -2,10 +2,10 @@ const VERSION = 1;
 const logPrefix = 'ServiceWorker:';
 const log = (...msg) => console.info(logPrefix, ...msg);
 
-addEventListener('install', (event) => {
+this.addEventListener('install', (event) => {
     log("Installing");
     event.waitUntil(async function() {
-        const cache = await caches.open(VERSION);
+        const cache = await self.caches.open(VERSION);
         await cache.addAll([
             '/',
             '/index.html',
@@ -14,21 +14,21 @@ addEventListener('install', (event) => {
     }());
 });
 
-addEventListener('activate', () => {
+this.addEventListener('activate', () => {
     log("Activated");
 });
 
-addEventListener('fetch', event => {
+this.addEventListener('fetch', event => {
     // log("Fetching", event.request);
     event.respondWith(async function() {
-        const cachedResponse = await caches.match(event.request);
+        const cachedResponse = await self.caches.match(event.request);
         // Return cached response
         if(cachedResponse) {
             return cachedResponse;
         }
         // Not cached, cache response if applicable
         if (event.request.url.startsWith("http://static.tvmaze.com/uploads/images/")) {
-            const cache = await caches.open(VERSION)
+            const cache = await self.caches.open(VERSION)
             const data = await fetch(event.request);
             await cache.put(event.request, data);
             return data;
@@ -38,7 +38,7 @@ addEventListener('fetch', event => {
     }());
 });
 
-addEventListener('push', (event) => {
+this.addEventListener('push', (event) => {
     let data = {};
     try {
         data = event.data.json();
@@ -60,12 +60,12 @@ addEventListener('push', (event) => {
     );
 });
 
-addEventListener('notificationclick', (e) => {
+this.addEventListener('notificationclick', (e) => {
     const clickedNotification = e.notification;
     clickedNotification.close();
     log('User clicked notification', clickedNotification);
     // TODO: How will we manage clicks? We don't want to modify this file too much.
     if( self.clients.openWindow) {
-        event.waitUntil(self.clients.openWindow('/#/show/1234'));
+        self.event.waitUntil(self.clients.openWindow('/#/show/1234'));
     }
 })
