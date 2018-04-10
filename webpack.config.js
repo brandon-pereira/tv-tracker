@@ -1,9 +1,15 @@
+require('dotenv').config();
 const config = require('./config');
 const webpack = require('webpack');
 
 const getPlugins = () => {
 	const plugins = [
 		new webpack.optimize.ModuleConcatenationPlugin(), // scope hoisting
+		new webpack.EnvironmentPlugin({
+			NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
+			DEBUG: false,
+			VAPID_PUBLIC_KEY: null
+		})
 	]
 	
 	if (process.env.NODE_ENV === "production") {
@@ -40,11 +46,11 @@ module.exports = {
 							}
 						}], "stage-0", "react"],
 						plugins: [
-							"transform-decorators-legacy",
+							"transform-decorators-legacy", // for mobx decorators
 							"transform-decorators",
-							"transform-react-jsx",
+							"transform-react-jsx", // for jsx
 							"add-module-exports", // export default will allow you to import without typing .default
-							"dynamic-import-webpack"
+							"dynamic-import-webpack" // for import()
 						]
 					}
 				}]

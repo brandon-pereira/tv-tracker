@@ -10,8 +10,7 @@ import graphql from '../Services/GraphQL';
 export default class NotificationsBox extends React.Component {
 
     onEnableClick() {
-        // TODO: Move VAPID Public key to process.env
-        ServiceWorker.requestNotificationAccess('BMwwOEdtjKogQbm8_1_eYS2g9y2gIOkp59olsT-Q8MhBGvXj1IQYjYuGIWCTDatQQl4ax3NAh4x6lrwHDcT1fwA')
+        ServiceWorker.requestNotificationAccess()
             .then(subscription => graphql.fetch(`
 					mutation setPushSubscription($input: String!){
 						setPushSubscription(pushSubscription: $input) {

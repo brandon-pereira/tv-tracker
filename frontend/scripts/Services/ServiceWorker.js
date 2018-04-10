@@ -2,6 +2,7 @@ class ServiceWorker {
 
 	constructor() {
 		this._notificationSubscribers = [];
+		this.VAPID_PUBLIC_KEY = process.env.VAPID_PUBLIC_KEY;
 		this.register();
 		this.getNotificationStatus();
 	}
@@ -42,13 +43,13 @@ class ServiceWorker {
 		}
 	}
 
-	async requestNotificationAccess (vapid_key) {
-		if (navigator.serviceWorker) {
+	async requestNotificationAccess () {
+		if (navigator.serviceWorker && this.VAPID_PUBLIC_KEY) {
 			try {
 				const reg = await navigator.serviceWorker.ready;
 				const subscribeOptions = {
 					userVisibleOnly: true,
-					applicationServerKey: this._urlBase64ToUint8Array(vapid_key)
+					applicationServerKey: this._urlBase64ToUint8Array(this.VAPID_PUBLIC_KEY)
 				};
 				const subscription = await reg.pushManager.subscribe(subscribeOptions)
 				this.notificationStatus = 'ENABLED';
