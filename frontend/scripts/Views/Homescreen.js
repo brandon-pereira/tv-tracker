@@ -24,7 +24,7 @@ export default class HomeScreen extends React.Component {
 				<Navigation title="TV Tracker" />
 				<NotificationsBox></NotificationsBox>
 				<LoginBox></LoginBox>
-				<ShowList onClick={() => {}} list={this.props.state.tvShows} highResolution={true} hasActionMenu={true} />
+				<ShowList router={this.props.router} onClick={() => {}} list={this.props.state.tvShows} highResolution={true} showPlaceholderShow={true} hasActionMenu={true} />
 				<FloatingActionButton href="#add" className="add-button" secondary={true} style={addStyles}>
 					<ContentAdd />
 				</FloatingActionButton>
