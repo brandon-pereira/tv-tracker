@@ -28,7 +28,7 @@ export default class NotificationsBox extends React.Component {
     render() {
         return (
             <ActionBox 
-                isVisible={this.props.state.notificationStatus === 'UNKNOWN'}
+                isVisible={this.props.state.notificationStatus === 'UNKNOWN' && this.props.state.isLoggedIn}
                 title="Enable Notifications"
                 subtitle="TvTracker now supports push notifications! Never miss your favorite shows by receiving push notifications when they air."
                 primaryButtonText="Enable"

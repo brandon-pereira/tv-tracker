@@ -7,7 +7,11 @@ class GraphQL {
 
     async query(query) {
         query = `query {${query}}`;
-        return this.fetch(query);
+        const data = await this.fetch(query);
+        if(data.errors) {
+            throw new Error(data.errors.message);
+        }
+        return data.data;
     }
 
     async fetch(query = ``, variables = {}) {

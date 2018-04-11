@@ -6,11 +6,15 @@ import ServiceWorker from './Services/ServiceWorker';
 class State {
   @observable tvShows = [];
   @observable notificationStatus = [];
+  @observable isLoggedIn = false;
 
   constructor() {
     this.tvShows = Storage.getShows();
     this.refreshShows();
     this.getPushNotificationStatus();
+    Storage.onReady.then(() => {
+      this.isLoggedIn = Storage.isLoggedIn;
+    });
   }
 
   async addShow(showId) {

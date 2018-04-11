@@ -5,13 +5,13 @@ class Storage {
 	constructor() {
 		this.tvShows = [];
 		this.isLoggedIn = false;
-		this.init();
+		this.onReady = this.init();
 	}
 
 	async init() {
-		let user = {};
+		let data = {};
 		try {
-			user = await graphql.query(`
+			data = await graphql.query(`
 				User {
 					firstName,
 					TvShows {
@@ -25,9 +25,9 @@ class Storage {
 			this.currentUser = {};
 			return;
 		}
-
 		this.isLoggedIn = true;
-		this.tvShows = this._resolveConflicts(user.TvShows, this._getLocalStorageShows());
+		this.tvShows = this._resolveConflicts(data.User.TvShows, this._getLocalStorageShows());
+		return;
 	}
 
 	async addShow(show) {
@@ -56,7 +56,8 @@ class Storage {
 		return this._setLocalStorageShows(shows);
 	}
 
-	_resolveConflicts(remote) {
+	_resolveConflicts(remote, localStorage) {
+		console.log(remote, localStorage);
 		// TODO: Resolve conflicts
 		return remote;
 	}
