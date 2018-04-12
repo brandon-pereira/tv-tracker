@@ -55,7 +55,9 @@ this.addEventListener('push', (event) => {
     event.waitUntil(
         self.registration.showNotification(data.title, {
             body: data.body,
-            icon: data.image,
+            icon: data.icon,
+            badge: data.badge,
+            image: data.image,
             data: {
                 url: data.url
             }
