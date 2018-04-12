@@ -18,6 +18,10 @@ npm run build
 npm run run
 ```
 
+### Debugging
+
+Kill port: `lsof -ti:8080 | xargs kill`
+
 ## Technical Features
 
 I built this project (like all other projects) to learn some new stuff. This project utilizes serval new tools including:
