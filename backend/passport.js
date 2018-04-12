@@ -7,7 +7,7 @@ module.exports = (app, db) => {
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:8080/auth/google/callback"
+    callbackURL: process.env.SERVER_URL + '/auth/google/callback'
   }, async (accessToken, refreshToken, profile, cb) => {
     const user = await db.Users.findOrCreate(profile.id, {
       google_id: profile.id,
