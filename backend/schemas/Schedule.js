@@ -30,22 +30,23 @@ module.exports = (mongoose) => {
     });
 
     schema.schedule = async function(show_id, episode_url) {
-        const exists = await this.findOne({show_id, episode_url});
-        if(!exists) {
-            const episode = await getEpisode(episode_url);
-            return await this.create({
-                show_id,
-                episode_id: episode.id,
-                // airDate: new Date(episode.airstamp),
-                airDate: new Date(),
-                episodeNumber: episode.number,
-                seasonNumber: episode.season,
-                name: episode.name,
-                description: episode.summary,
-            });
-        }
-        return exists;
-    }
+      const exists = await this.findOne({ show_id, episode_url });
+      if (!exists) {
+        const episode = await getEpisode(episode_url);
+        return await this.create({
+          show_id,
+          episode_id: episode.id,
+          episode_url: episode_url,
+          // airDate: new Date(episode.airstamp),
+          airDate: new Date(),
+          episodeNumber: episode.number,
+          seasonNumber: episode.season,
+          name: episode.name,
+          description: episode.summary
+        });
+      }
+      return exists;
+    };
 
     return schema;
 }
