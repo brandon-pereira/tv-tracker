@@ -1,19 +1,29 @@
 const { getShow } = require('../utils/TvMaze');
 const { Schema } = require('mongoose');
+const uniqueArrayPlugin = require("mongoose-unique-array");
 
 module.exports = (mongoose) => {
-    const schema = mongoose.model('TvShows', {
-        _id: Schema.Types.ObjectId,
-        id: String,
-        name: String,
-        image: Object,
-        subscribedUsers: [{ type: Schema.Types.ObjectId, ref: 'TvShows' }],
-        status: String,
-        updated: Number,
-        _links: Object
+    const schema = new Schema({
+      _id: Schema.Types.ObjectId,
+      id: String,
+      name: String,
+      image: Object,
+      subscribedUsers: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "TvShows",
+          unique: true,
+          index: true
+        }
+      ],
+      status: String,
+      updated: Number,
+      _links: Object
     });
+    schema.plugin(uniqueArrayPlugin);
+    const model = mongoose.model("TvShows", schema);
 
-    schema.findOrCreate = async function(show_id) {
+    model.findOrCreate = async function(show_id) {
         const _show = await this.findOne({ id: show_id });
         if (_show) {
             return _show;
@@ -23,26 +33,30 @@ module.exports = (mongoose) => {
         }
     }
 
-    schema.addUserToShow = async function(show_id, user_id) {
+    model.addUserToShow = async function(show_id, user_id) {
         const show = await this.findOrCreate(show_id);
-        // dedupe
-        const users = show.subscribedUsers;
-        users.push(user_id);
-        show.subscribedUsers = [...new Set(users)];
-        show.markModified('subscribedUsers'); // Mark modified so it's resaved
+        try {
+			// Try adding user to show
+			show.subscribedUsers.push(user_id);
+			await show.save();
+		} catch(err) {
+			// ValidationError = TvShow already in user
+			if (err.name !== "ValidationError") {
+				console.error(err.name);
+			}
+		}
         // save/return
-        show.save();
         return show;
     }
 
-    schema.removeUserFromShow = async function (show_id, user_id) {
-        const show = await this.findOne({id: show_id});
+    model.removeUserFromShow = async function(show_id, user_id) {
+        const show = await this.findOne({ id: show_id });
         if (show.subscribedUsers.indexOf(user_id) > -1) {
             show.subscribedUsers.splice(show.subscribedUsers.indexOf(user_id), 1);
             show.save();
         }
         return show;
-    }
+    };
 
-    return schema;
+    return model;
 }
