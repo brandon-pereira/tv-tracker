@@ -38,4 +38,8 @@ module.exports = (app, db) => {
   app.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
     res.redirect('/');
   });
+  app.get("/auth/logout", (req, res) => {
+    req.logout();
+    res.redirect("/");
+  });
 }
