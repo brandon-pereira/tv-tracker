@@ -80,9 +80,7 @@ export default class LocalStorage {
   }
 
   sort(arr) {
-    console.log("SORT");
     if(this.options.sortMethod && typeof this.options.sortMethod === 'function') {
-      console.log("PASS");
       return this.options.sortMethod(arr);
     } else {
       return arr;

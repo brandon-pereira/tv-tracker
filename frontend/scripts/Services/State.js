@@ -8,6 +8,7 @@ class State {
   @observable tvShows = [];
   @observable notificationStatus = "UNKNOWN";
   @observable isLoggedIn = false;
+  @observable isSyncing = true;
 
   constructor() {
     this.localStorage = new LocalStorage("shows", {
@@ -31,13 +32,15 @@ class State {
     } catch (err) {
       this.isLoggedIn = false;
       this.tvShows = this.localStorage.get();
+      console.log(this.localStorage.get());
+      this.isSyncing = false;
       this.refreshShows();
       return;
     }
     this.isLoggedIn = true;
-    this.tvShows = this.localStorage.get();
+    this.tvShows = await this._merge(data.User.TvShows, this.localStorage.get());
     this.refreshShows();
-    // this.tvShows = this._merge(data.User.TvShows, this._getLocalStorageShows());
+    this.isSyncing = false;
     return;
   }
 
@@ -72,7 +75,7 @@ class State {
       show.isRefreshing = false;
       show.prettyAirDate = moment(show.nextepisode.airstamp).fromNow();
       this.tvShows = this.localStorage.update(show.id, show);
-    } else if(show.status === 'Ended') {
+    } else if (show.status === "Ended") {
       show.prettyAirDate = "Ended";
     } else {
       show.prettyAirDate = "TBA";
@@ -90,14 +93,37 @@ class State {
     } catch (err) {
       console.error(`Error refreshing show ${show.id}, got error: `, err);
       show.isRefreshing = false;
-      this.tvShows = this.localStorage.update(show.id, show)
+      this.tvShows = this.localStorage.update(show.id, show);
     }
     return show;
   }
 
+  // For each remote and local, verify in both remote and local.
+  // Never delete, only add.
+  async _merge(remote, local) {
+    // Possible cases:
+    // 1. User only used localStorage and then signed up. localStorage is ahead.
+    // 2. User has account, but went offline. localStorage is ahead.
+    // 3. User has shows on 2 devices, we need to sync them. Both ahead.
+    // For each remote and local, verify in both remote and local.
+    // Never delete, only add.
+    if(remote.length !== local.length) {
+      console.log("MERGE");
+      for(let show of remote) {
+        show = await Tracker.getShowById(show.id);
+        show = await Tracker.getShowDetails(show);
+        this.getAirDate(show);
+        this.localStorage.add(show.id, show);
+      }
+      for(let show of local) {
+        await this.serverStorage.addShow(show.id);
+      }
+    }
+    return this.localStorage.get();
+  }
+
   refreshShows() {
     this.tvShows.forEach(show => {
-      console.log(show);
       this.refreshShow(show);
     });
     clearInterval(this.refresher);
@@ -117,8 +143,12 @@ class State {
   sortShows(unsortedShows) {
     const TBA_DATE = new Date("01/01/3000");
     return unsortedShows.sort(function(a, b) {
-      a = a.value.nextepisode ? new Date(a.value.nextepisode.airstamp) : TBA_DATE;
-      b = b.value.nextepisode ? new Date(b.value.nextepisode.airstamp) : TBA_DATE;
+      a = a.value.nextepisode
+        ? new Date(a.value.nextepisode.airstamp)
+        : TBA_DATE;
+      b = b.value.nextepisode
+        ? new Date(b.value.nextepisode.airstamp)
+        : TBA_DATE;
       return a - b;
     });
   }

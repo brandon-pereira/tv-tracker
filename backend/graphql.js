@@ -51,6 +51,7 @@ module.exports = (app, database) => {
                 try {
                     show = await database.TvShow.addUserToShow(args.id, user._id);
                 } catch(err) {
+                    console.log(err);
                     throw new Error("Invalid Show - Doesn't exist.", err);
                 }
                 // Add TV show to list of users subscribed shows
