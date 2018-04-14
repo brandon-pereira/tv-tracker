@@ -10,7 +10,10 @@ class State {
   @observable isLoggedIn = false;
 
   constructor() {
-    this.localStorage = new LocalStorage("shows");
+    this.localStorage = new LocalStorage("shows", {
+      sortMethod: this.sortShows,
+      uniqueOnly: true
+    });
     this.serverStorage = new ServerStorage();
 
     this.init();
@@ -110,11 +113,12 @@ class State {
     });
   }
 
+  // TODO: Sort by name and if ended as well
   sortShows(unsortedShows) {
     const TBA_DATE = new Date("01/01/3000");
     return unsortedShows.sort(function(a, b) {
-      a = a.nextepisode ? new Date(a.nextepisode.airstamp) : TBA_DATE;
-      b = b.nextepisode ? new Date(b.nextepisode.airstamp) : TBA_DATE;
+      a = a.value.nextepisode ? new Date(a.value.nextepisode.airstamp) : TBA_DATE;
+      b = b.value.nextepisode ? new Date(b.value.nextepisode.airstamp) : TBA_DATE;
       return a - b;
     });
   }

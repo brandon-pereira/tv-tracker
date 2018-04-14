@@ -1,7 +1,8 @@
 export default class LocalStorage {
 
-  constructor(key) {
+  constructor(key, options) {
     this.key = key;
+    this.options = options;
   }
 
   /**
@@ -53,12 +54,13 @@ export default class LocalStorage {
    * @param {Array} items 
    */
   set(items) {
+    items = this.sort(this.dedupe(items));
     this._set(items);
     return items.map(item => item.value);
   }
 
   _set(items) {
-    localStorage.setItem(this.key, JSON.stringify(this.dedupe(items)));
+    localStorage.setItem(this.key, JSON.stringify(items));
   }
 
   /**
@@ -77,19 +79,33 @@ export default class LocalStorage {
     return this.set(items);
   }
 
+  sort(arr) {
+    console.log("SORT");
+    if(this.options.sortMethod && typeof this.options.sortMethod === 'function') {
+      console.log("PASS");
+      return this.options.sortMethod(arr);
+    } else {
+      return arr;
+    }
+  }
+
   /**
    * Removes duplicate IDs
    * @param {Array} items 
    */
   dedupe(items) {
-    const ids = [];
-    return items.filter(show => {
+    if(this.options.uniqueOnly) {
+      const ids = [];
+      return items.filter(show => {
         if (ids.indexOf(show.key) !== -1) {
-            return false;
+          return false;
         }
         ids.push(show.key);
         return true;
-    });
+      });
+    } else {
+      return items;
+    }
   }
 
 }
