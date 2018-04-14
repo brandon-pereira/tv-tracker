@@ -16,4 +16,8 @@ html.app {
       display: none;
     }
   }
+  .main-container {
+    height: 100vh;
+    overflow-y: scroll;
+  }
 }
