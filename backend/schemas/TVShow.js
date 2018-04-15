@@ -1,9 +1,8 @@
 const { getShow } = require('../utils/TvMaze');
 const { Schema } = require('mongoose');
-const uniqueArrayPlugin = require("mongoose-unique-array");
 
 module.exports = (mongoose) => {
-    const schema = new Schema({
+    const model = mongoose.model("TvShows", {
       _id: Schema.Types.ObjectId,
       id: String,
       name: String,
@@ -11,17 +10,13 @@ module.exports = (mongoose) => {
       subscribedUsers: [
         {
           type: Schema.Types.ObjectId,
-          ref: "TvShows",
-          unique: true,
-          index: true
+          ref: "TvShows"
         }
       ],
       status: String,
       updated: Number,
       _links: Object
     });
-    schema.plugin(uniqueArrayPlugin);
-    const model = mongoose.model("TvShows", schema);
 
     model.findOrCreate = async function(show_id) {
         const _show = await this.findOne({ id: show_id });
@@ -35,17 +30,10 @@ module.exports = (mongoose) => {
 
     model.addUserToShow = async function(show_id, user_id) {
         const show = await this.findOrCreate(show_id);
-        try {
-			// Try adding user to show
-			show.subscribedUsers.push(user_id);
-			await show.save();
-		} catch(err) {
-			// ValidationError = TvShow already in user
-			if (err.name !== "ValidationError") {
-				console.error(err.name);
-			}
-		}
-        // save/return
+        // Add user to show
+        show.subscribedUsers.addToSet(user_id);
+        // Save/return
+        await show.save();
         return show;
     }
 
