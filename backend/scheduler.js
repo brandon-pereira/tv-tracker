@@ -5,7 +5,7 @@ const TvMaze = require('./utils/tvmaze');
 
 module.exports = (db) => {
     schedule.scheduleJob({second: 0}, () => checkAndSendNotifications(db)); // Every Minute
-    schedule.scheduleJob({dayOfWeek: 0}, () => checkForNewEpisodes(db)); // Every Sunday
+    schedule.scheduleJob({hour: 3, minute: 0}, () => checkForNewEpisodes(db)); // Every day at 3am
 };
 
 const checkForNewEpisodes = async (db) => {
@@ -54,12 +54,19 @@ const getAiredEpisodes = async (db, date) => {
 const sendNotification = async (database, episode) => {
     if (episode && episode.TvShow && episode.TvShow.subscribedUsers && episode.TvShow.subscribedUsers.length) {
         return Promise.all(episode.TvShow.subscribedUsers.map(async _id => {
-            const user = await database.Users.findOne({ _id });
-            return await pushnotifications({
-                title: `${episode.TvShow.name} will air now!`,
-                body: `S${absoluteFormatNumber(episode.seasonNumber)}E${absoluteFormatNumber(episode.episodeNumber)}${episode.name ? ' - ' + episode.name : ''}` || undefined,
-                image: _get(episode, `TvShow.image.medium`, undefined)
-            }, user.pushSubscription)
+            const user = await database.Users.findOne({ _id, pushSubscription: {$ne: null} });
+            if(user) {
+                try {
+                    await pushnotifications({
+                        title: `${episode.TvShow.name} will air now!`,
+                        body: `S${absoluteFormatNumber(episode.seasonNumber)}E${absoluteFormatNumber(episode.episodeNumber)}${episode.name ? ' - ' + episode.name : ''}` || undefined,
+                        image: _get(episode, `TvShow.image.medium`, undefined)
+                    }, user.pushSubscription)
+                } catch(err) {
+                    user.pushSubscription = undefined;
+                    await user.save();
+                }
+            }
         }))
     } else {
         console.log("sendNotification received corrupted data");
