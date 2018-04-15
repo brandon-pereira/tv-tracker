@@ -33,7 +33,7 @@ require('./backend/scheduler')(db);
  * Start backend
  */
 app.listen(process.env.SERVER_PORT || 8080, () => {
-  console.info("Server started on port", process.env.port || 8080)
+  console.info("Server started on port", process.env.SERVER_PORT || 8080)
 });
 
 app.use('/', express.static('./dist'))

@@ -1,7 +1,7 @@
 const schedule = require('node-schedule');
 const pushnotifications = require('./pushnotifications');
 const _get = require('lodash.get');
-const TvMaze = require('./utils/tvmaze');
+const TvMaze = require('./utils/TvMaze');
 
 module.exports = (db) => {
     schedule.scheduleJob({second: 0}, () => checkAndSendNotifications(db)); // Every Minute
