@@ -6,11 +6,17 @@ this.addEventListener('install', (event) => {
     log("Installing");
     event.waitUntil(async function() {
         const cache = await self.caches.open(VERSION);
-        await cache.addAll([
-            '/',
-            '/index.html',
-            '/scripts/bundle.min.js',
-        ]);
+        try {
+            const possibleScripts = Array.from({ length: 15 }).map((_, i) => `/scripts/${i}.bundle.min.js`);
+            await cache.addAll([
+                '/',
+                '/index.html',
+                '/scripts/bundle.min.js',
+                ...possibleScripts
+            ]);
+        // catch: one of the possible scripts probably failed to load.
+        } catch(err) {} // eslint-disable-line
+        return;
     }());
 });
 
@@ -20,15 +26,16 @@ this.addEventListener('activate', (event) => {
 });
 
 this.addEventListener('fetch', event => {
-    // log("Fetching", event.request);
+    log("Fetching", event.request);
     event.respondWith(async function() {
         const cachedResponse = await self.caches.match(event.request);
         // Return cached response
         if(cachedResponse) {
+            log("Cached", event.request);
             return cachedResponse;
         }
         // Not cached, cache response if applicable
-        if (event.request.url.startsWith("http://static.tvmaze.com/uploads/images/")) {
+        if (event.request.url.startsWith("https://static.tvmaze.com/uploads/images/")) {
             const cache = await self.caches.open(VERSION)
             const data = await fetch(event.request);
             await cache.put(event.request, data);
