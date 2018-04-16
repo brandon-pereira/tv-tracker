@@ -1,0 +1,23 @@
+@import 'mixins';
+@import 'config';
+
+html.app {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+	body {
+		min-height: 100%;
+		margin: 0;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+  }
+  .loaded {
+    .loader {
+      display: none;
+    }
+  }
+  .main-container {
+    height: 100vh;
+    overflow-y: scroll;
+  }
+}
