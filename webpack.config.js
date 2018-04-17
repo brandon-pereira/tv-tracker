@@ -29,7 +29,7 @@ module.exports = {
 	entry: ['babel-polyfill', config.paths.src.scripts],
 	mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 	output: {
-		publicPath: '/scripts/',
+		publicPath: '/',
 		filename: config.naming.scripts
 	},
 	module: {
