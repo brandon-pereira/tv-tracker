@@ -12,13 +12,8 @@ const getPlugins = () => {
 		})
 	]
 	
-	if (process.env.NODE_ENV === "production") {
-		// plugins.push(...[new webpack.optimize.minimize({
-		// 	minimize: true,
-		// 	sourceMap: true
-		// 	})]);
-	} else {
-		plugins.push(...[new webpack.SourceMapDevToolPlugin()]);
+	if (!process.env.NODE_ENV === "production") {
+		plugins.push(new webpack.SourceMapDevToolPlugin());
 	}
 	
 	return plugins;
@@ -29,7 +24,7 @@ module.exports = {
 	entry: ['babel-polyfill', config.paths.src.scripts],
 	mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 	output: {
-		publicPath: 'scripts/',
+		publicPath: 'scripts/', // relative path
 		filename: config.naming.scripts
 	},
 	module: {
