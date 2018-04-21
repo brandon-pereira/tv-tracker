@@ -30,8 +30,8 @@ module.exports = async (payload, pushSubscription) => {
         throw new Error("Invalid/Corrupt Push Subscription");
     }
     if (pushSubscription && pushSubscription.keys && pushSubscription.keys.p256dh && pushSubscription.keys.auth && payload && payload.title) {
-        payload.badge = "/notification-badge.png";
-        payload.icon = '/android-chrome-192x192.png';
+        payload.badge = "notification-badge.png";
+        payload.icon = 'android-chrome-192x192.png';
         return webpush.sendNotification(pushSubscription, JSON.stringify(payload));
     } else {
         throw new Error("Invalid payload or pushsubscription");
