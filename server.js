@@ -36,6 +36,6 @@ app.listen(process.env.SERVER_PORT || 8080, () => {
   console.info("Server started on port", process.env.SERVER_PORT || 8080)
 });
 
-if(!process.env.PRODUCTION) {
+// if(!process.env.PRODUCTION) {
   app.use("/", express.static("./dist"));
-}
+// }
