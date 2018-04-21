@@ -2,7 +2,7 @@
 class GraphQL {
 
     constructor() {
-        this.endpoint = '/api';
+        this.endpoint = 'api';
     }
 
     async query(query) {

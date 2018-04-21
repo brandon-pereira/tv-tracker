@@ -17,11 +17,11 @@ export default class Navigation extends React.Component {
 	}
 
 	loginClick() {
-		window.location = '/auth/google';
+		window.location = 'auth/google';
 	}
 
 	logoutClick() {
-		window.location = '/auth/logout';
+		window.location = 'auth/logout';
 	}
 
 	refreshShowsClick() {

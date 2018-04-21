@@ -13,7 +13,7 @@ export default class LoginActionBox extends React.Component {
     }
 
     onPrimaryClick() {
-       window.location.href = '/auth/google';
+       window.location.href = 'auth/google';
     }
 
     onSecondaryClick() {
