@@ -36,10 +36,10 @@ module.exports = (app, db) => {
   app.use(passport.session());
   app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
   app.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
-    res.redirect('/');
+    res.redirect(req.header("referrer")); // Redirect /tv-tracker/auth/google to /tv-tracker
   });
   app.get("/auth/logout", (req, res) => {
     req.logout();
-    res.redirect("/");
+    res.redirect(req.header("referrer")); // Redirect /tv-tracker/auth/google to /tv-tracker
   });
 }
