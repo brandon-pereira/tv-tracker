@@ -38,8 +38,8 @@ this.addEventListener('fetch', event => {
         if (event.request.url.startsWith("https://static.tvmaze.com/uploads/images/")) {
             const cache = await self.caches.open(VERSION)
             const data = await fetch(event.request);
-            await cache.put(event.request, data);
-            return data.clone();
+            await cache.put(event.request, data.clone());
+            return data;
         }
         // Fallback, fetch and return
         return fetch(event.request);
