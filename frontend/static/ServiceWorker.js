@@ -26,7 +26,7 @@ this.addEventListener('activate', (event) => {
 });
 
 this.addEventListener('fetch', event => {
-    log("Fetching", event.request);
+    // log("Fetching", event.request);
     event.respondWith(async function() {
         const cachedResponse = await self.caches.match(event.request);
         // Return cached response
@@ -39,7 +39,7 @@ this.addEventListener('fetch', event => {
             const cache = await self.caches.open(VERSION)
             const data = await fetch(event.request);
             await cache.put(event.request, data);
-            return data;
+            return data.clone();
         }
         // Fallback, fetch and return
         return fetch(event.request);
