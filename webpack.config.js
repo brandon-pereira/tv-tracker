@@ -9,12 +9,13 @@ const getPlugins = () => {
 			NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
 			DEBUG: false,
 			VAPID_PUBLIC_KEY: null
-		})
+		}),
+		new webpack.SourceMapDevToolPlugin()
 	]
 	
-	if (!process.env.NODE_ENV === "production") {
-		plugins.push(new webpack.SourceMapDevToolPlugin());
-	}
+	// if (!process.env.NODE_ENV === "production") {
+	// 	plugins.push(new webpack.SourceMapDevToolPlugin());
+	// }
 	
 	return plugins;
 }
